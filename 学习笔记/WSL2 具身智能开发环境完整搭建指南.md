@@ -983,3 +983,16 @@ nvidia-smi > ~/workspace/experiments/gpu-driver.txt
 - [Isaac Sim ROS Workspaces](https://github.com/isaac-sim/IsaacSim-ros_workspaces)
 
 > **版本提示**：本指南记录 2026-10-13 的推荐路线，但软件依赖、脚本参数、仓库分支和镜像状态会变化。发生冲突时优先遵循与已安装软件版本匹配的官方文档，记录自己的实测差异后再更新本笔记。
+
+---
+
+## 15. 2026-10-22 实操补充与 DeepSeek Harness（DSH）工作流
+
+> **与原版目标环境的区别**：原版指南规划的是 Ubuntu 24.04 + ROS 2 Jazzy。最新个人操作补充笔记中使用了 Ubuntu **22.04** 的换源命令，并记录了 XFCE/XRDP 和 WSL 的操作过程；尚未提供系统版本及安装成功的终端输出。因此本段是**实操资料的修订入口，而不是确认全部软件均已部署成功**。
+
+- [WSL2 安装与配置实操随笔（2026-10-22）](./WSL2%20%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE%E5%AE%9E%E6%93%8D%E9%9A%8F%E7%AC%94%EF%BC%882026-10-22%EF%BC%89.md)：校对 `wsl --install` / `--location` / `--export` / `--import` 等命令，解释 22.04 换源、`stratxfce4` 拼写问题、XRDP 闪退和 WSLg 替代路线；保留原始工作目录 `~/vla`。
+- [DeepSeek Harness（DSH）在 WSL2 中的配置与具身智能开发实践](./DeepSeek%20Harness%EF%BC%88DSH%EF%BC%89%E5%9C%A8%20WSL2%20%E4%B8%AD%E7%9A%84%E9%85%8D%E7%BD%AE%E4%B8%8E%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md)：增加 Linux Node/nvm、`npx @deepseek-ai/dsh web --no-open`、Windows 浏览器 Web UI、API/模型配置、Agent 工作目录、安全权限、阶段式 ROS 2/LeRobot/PushT 开发提示词。
+
+**版本选择**：如实测系统为 Ubuntu 22.04，ROS 2 通常使用 Humble；若按本总指南安装 ROS 2 Jazzy，则先采用 Ubuntu 24.04。不要在一个系统中盲目混用发行版 apt 软件源。
+
+**操作纪律**：AI Agent 先只读诊断 → 提出方案 → 等待确认 → 执行必要步骤 → 保存真实日志与测试结果；不要把没执行过的命令标记为“已完成”。DSH 当前是开发者预览版，插件和自动执行能力需要留意其[官方安全声明](https://github.com/deepseek-ai/deepseek-harness/blob/master/SAFETY.md)。
