@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "report_date_local": "2026-11-26",
-  "generated_at_local": "2026-11-26T10:24:03.122637+08:00",
+  "generated_at_local": "2026-11-26T10:25:33.504254+08:00",
   "timezone": "Asia/Taipei",
   "search_window_days": 14,
   "preferred_window_hours": 72,
@@ -30,8 +30,8 @@
     "llm_analysis_configured": true,
     "llm_analysis_statuses": [
       "ok",
-      "ok",
-      "ok",
+      "skipped after previous API failure: ok",
+      "skipped after previous API failure: ok",
       "skipped after previous API failure: ok",
       "skipped after previous API failure: ok",
       "skipped after previous API failure: ok",
@@ -108,9 +108,9 @@
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.30907",
-      "technical_analysis": "1）研究问题与任务：面向跨具身机器人操作，学习无需动作标签的3D潜动作世界模型，使潜动作可迁移至未见形态并用于零样本操作；任务包括几何预测、潜空间规划与真实灵巧手部署（作者声称）。\n\n2）方法：共享PTv3编码器；逆动力学由相邻点云状态推断32维潜动作（4×8 token）；前向动力学以初始场景和K=5个潜动作，经因果分块解码一次性预测各horizon的逐点位移场，避免未来动作泄漏。部署时用CEM在潜动作空间优化几何代价，并以已知几何/运动学从预测粒子运动恢复夹爪目标；灵巧手用Kabsch估掌姿、有界非线性最小二乘求指关节，无需具身特定潜动作解码器。\n\n3）训练与监督：使用H2O双人操作子集、MANO手/物体网格与位姿，重定向到8种机器人手，加人类共9种训练具身；每实体1024粒子。损失为运动加权Huber位移损失加跨具身对比损失（λcon=0.15），正对为同转移动不同具身。训练序列数量、优化器、时长等摘录未覆盖；真实世界控制器细节亦未覆盖。\n\n4）实验与结果：几何指标为Mover EPE（mm）。条件消融中正确潜动作手/物体/场景平均EPE 7.94/13.59/0.87，显著优于零、打乱、固定条件；跨具身交叉解码接近同具身且低于49.5 mm无运动基线；具身分类探针26.6%，编码器特征85.3%，随机9.1%。RoboSuite零样本夹爪四任务50/80/100/100%；RoboCasa适配后Reach/Grasp/Place为90/92/60%，DexWM报告72/58/28%，并称候选评估少20倍、用1张H100；真实未见灵巧手50试次五任务86%。\n\n5）优势与局限：优势是几何 grounded、统一潜动作、跨具身与无需动作解码器；局限是预测仅1秒、部分基线为报告值、真实试验规模有限、泛化依赖任务无关适配。复现需H2O、重定向流程、PTv3、CEM、RoboCasa/RoboSuite及项目页资源。",
+      "technical_analysis": "",
       "technical_analysis_status": "ok",
-      "reading_scope": "HTML full text fetched; concise model analysis stored"
+      "reading_scope": "HTML full text fetched but no analysis stored"
     },
     {
       "arxiv_id": "2611.24585",
@@ -159,9 +159,9 @@
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.24585",
-      "technical_analysis": "1) 研究问题与任务设定：如何用廉价自我中心人类录像监督灵巧机器人策略，并在部署时选择动作读出。人类数据缺关节位置/执行器命令，仅有重定向EEF动作；任务为双臂7-DoF、双手22-DoF机器人的VLA操作，动作块H=64。\n\n2) 方法：骨干为Qwen3-VL-4B，辅助预测EEF块的FAST离散token，并预测子任务文本和未来视频帧；0.6B共享flow-matching专家每层读取骨干K/V，并行输出55维EEF流与65维joint流，注意力掩码隔离两流，部署可选一流执行。FAST不供专家读取，避免抄捷径。\n\n3) 训练数据与损失：预训练人类2.8k小时、73.1k episodes、320任务；机器人遥操作228小时、10.5k episodes、105任务，按1:1采样。损失为LFM_EEF+mJ·LFM_joint+0.1LFAST+1Lvideo+0.2Ltext；人类样本无joint标签，只监督EEF流，joint流经共享骨干/专家间接塑造。具体优化器、硬件与训练时长摘录未披露。\n\n4) 实验：真实机器人六任务各20次；joint流SHAPE得分0.80，π0.5为0.63，GR00T N1.7为0.51；严格全任务完成76/120对61/120、51/120。消融：w/o both 0.42，w/o human 0.64，w/o FAST 0.47（joint流）。H2R三任务零机器人演示，EEF流21/60=35%，joint流0/60。仿真RoboCasa GR-1 24任务：72.2%对π0.5 64.8%、GR00T 62.6%。指标为成功率/部分分。\n\n5) 优势、局限与复现：作者声称离散监督驱动骨干梯度、形成跨域动作相关表示，双流兼顾精细控制与人类迁移；证据含消融和探针。局限包括连接器毫米级重插仍难、H2R多在抓取失败、joint流人类迁移为零。复现资源仅见架构与超参在附录，计算资源未披露。",
-      "technical_analysis_status": "ok",
-      "reading_scope": "HTML full text fetched; concise model analysis stored"
+      "technical_analysis": null,
+      "technical_analysis_status": "skipped after previous API failure: ok",
+      "reading_scope": "HTML full text fetched; model analysis skipped after API failure"
     },
     {
       "arxiv_id": "2610.40349",
@@ -221,9 +221,9 @@
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2610.40349",
-      "technical_analysis": "",
-      "technical_analysis_status": "ok",
-      "reading_scope": "HTML full text fetched but no analysis stored"
+      "technical_analysis": null,
+      "technical_analysis_status": "skipped after previous API failure: ok",
+      "reading_scope": "HTML full text fetched; model analysis skipped after API failure"
     },
     {
       "arxiv_id": "2611.32101",
