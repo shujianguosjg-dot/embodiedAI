@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "report_date_local": "2026-11-26",
-  "generated_at_local": "2026-11-26T10:25:33.504254+08:00",
+  "generated_at_local": "2026-11-26T10:39:29.853784+08:00",
   "timezone": "Asia/Taipei",
   "search_window_days": 14,
   "preferred_window_hours": 72,
@@ -11,7 +11,7 @@
       "cs.CV": "ok: 1000 recent/updated records",
       "cs.LG": "ok: 1000 recent/updated records"
     },
-    "huggingface_daily_papers": "ok: 100 papers with HF daily-paper signals; 1 date request(s) failed: 2026-11-26: HTTPError: 400 Client Error: Bad Request for url: https://huggingface.co/api/daily_papers?p=0&limit=100&date=2026-11-26&sort=trending",
+    "huggingface_daily_papers": "ok: 100 papers with HF daily-paper signals",
     "github_repository_search": "searched for top 15 candidates (or fewer)",
     "html_full_text_ids": [
       "2611.30907",
@@ -28,17 +28,19 @@
     "llm_analysis_model": "deepseek-v4.1-flash",
     "llm_analysis_endpoint": "https://opencode.ai/inference/go/openai/v1/chat/completions",
     "llm_analysis_configured": true,
+    "llm_preflight_status": "ok",
+    "llm_analysis_success_count": 5,
     "llm_analysis_statuses": [
       "ok",
-      "skipped after previous API failure: ok",
-      "skipped after previous API failure: ok",
-      "skipped after previous API failure: ok",
-      "skipped after previous API failure: ok",
-      "skipped after previous API failure: ok",
-      "skipped after previous API failure: ok",
-      "skipped after previous API failure: ok",
-      "skipped after previous API failure: ok",
-      "skipped after previous API failure: ok"
+      "ok",
+      "ok",
+      "ok",
+      "ok",
+      "skipped: daily analysis cap reached (5)",
+      "skipped: daily analysis cap reached (5)",
+      "skipped: daily analysis cap reached (5)",
+      "skipped: daily analysis cap reached (5)",
+      "skipped: daily analysis cap reached (5)"
     ]
   },
   "counts": {
@@ -108,9 +110,9 @@
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.30907",
-      "technical_analysis": "",
+      "technical_analysis": "1) 问题/任务：作者针对动作标注昂贵、世界模型绑定单一形态，提出从无动作标签点云及重定向人类演示学习统一3D潜在动作世界模型；任务为以初始粒子场景和潜在动作序列预测未来粒子位移，并在潜在空间MPC实现跨形态零样本操作（作者声称）。\n\n2) 方法：共享PTv3编码；逆动力学由相邻点云推断32维潜在动作（4×8）；前向动力学以初始场景与K=5动作，因果分块多horizon一次预测逐点位移，遮蔽未来动作；跨embodiment对比对齐对应transition。部署用CEM+滚动重规划；夹爪由粒子质心/刚体对齐，灵巧手用Kabsch估掌姿并有界非线性最小二乘IK，无需学习式latent-to-action解码器。\n\n3) 数据/监督/损失：主训练用H2O双手机器人操作子集、MANO/物体网格与位姿，重定向至8种机器人手（1人+8机器人），每实体1024粒子，序列级划分。监督为粒子位移；L=Ldisp+0.15Lcon；Ldisp为运动加权Huber并逐维/逐horizon归一化，Lcon为跨形态对应transition的温度余弦对比。任务无关适应用RoboCasa 84条探索序列、rank-2 LoRA、CoTracker3估对应并加不确定性；优化器、batch、总训练算力摘录未覆盖。\n\n4) 实验（摘录可核对）：H2O验证Mover EPE(mm)：正确latent手/物7.94/13.59，零53.17/43.43，打乱75.01/51.96，固定60.29/46.78，静态场景<1mm；cross-decoding接近同形态且低于49.5mm no-motion；embodiment分类26.6%对编码器85.3%（机会9.1%）。RoboSuite未见夹爪10 trials：50%、80%、100%、100%；PointWorld两共享任务100%。RoboCasa规划消融20 trials：Latent-IK 100/90/60，native 100/85/60，Latent-Decoder 100/85/80。任务泛化50 episodes：90/92/60，DexWM报告72/58/28；256对5120候选、1对8 H100。真机未见灵巧手50 trials五任务86%。\n\n5) 优势/局限/复现：优势为无动作标签、几何接地、跨形态零样本及较低规划计算；局限为仅1s预测、依赖已知几何运动学/重定向数据，摘录未给失败分析、显著性与总训练资源。项目页有代码/视频；复现需H2O等数据、PTv3、机器人模型/IK及评估硬件，完整超参与训练预算未披露。",
       "technical_analysis_status": "ok",
-      "reading_scope": "HTML full text fetched but no analysis stored"
+      "reading_scope": "HTML full text fetched; concise model analysis stored"
     },
     {
       "arxiv_id": "2611.24585",
@@ -159,9 +161,9 @@
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.24585",
-      "technical_analysis": null,
-      "technical_analysis_status": "skipped after previous API failure: ok",
-      "reading_scope": "HTML full text fetched; model analysis skipped after API failure"
+      "technical_analysis": "1) **研究问题与任务设定**：论文关注灵长类/双人机械手从第一视角人类数据学习操作：人类数据仅有重定向末端（EEF）动作，缺机器人关节与执行器指令，需回答“人类数据如何监督策略”和“部署时如何读出动作”。任务为视觉-语言-动作策略，输入观测与指令，输出长度H=64的动作块。  \n2) **方法模块与信息流**：骨干为Qwen3-VL-4B；辅助预测EEF动作块的离散FAST token；共享0.6B flow-matching专家并行输出55维EEF流和65维joint流。注意力掩码隔离两流及FAST，防止捷径；人类样本仅监督EEF，joint流经共享骨干/专家间接获益。部署省略FAST，可选一流：joint直控或EEF经IK。  \n3) **数据、监督与损失**：预训练用2.8k小时人类第一视角记录（320任务、73.1k episodes）与228小时机器人遥操作（105任务、10.5k episodes），1:1采样。人类提供头图+重定向EEF；机器人另含腕图、本体、EEF与joint。损失含EEF/joint流匹配、FAST、视频、子任务文本，λF=0.1、λV=1、λT=0.2；joint损失按样本掩码。完整超参摘录未覆盖。  \n4) **实验与结果**：真实六任务每任务20次、随机摆放、95%CI；基线π0.5、GR00T N1.7。SHAPE joint六任务均值0.80，对比0.63、0.51；去掉人类数据为0.64，去掉FAST为0.47，两者均无为0.42。人类到机器人零任务机器人数据：SHAPE EEF 21/60（35%），其他预训练模型0–7/60，joint流0/60。仿真RoboCasa GR-1 24任务：72.2% vs 64.8%、62.6%。  \n5) **优势、局限与复现**：优势是离散监督直接驱动骨干梯度并塑造跨域动作表征；双流共享训练、同一检查点灵活读出；人类预训练可在无人类joint标签下改善joint流。局限包括毫米级连接器重插仍困难、H2R失败多在抓取闭合过松、joint流在纯人类演示下不适应；FAST在仅窄机器人数据时可能过拟合。复现需双7-DoF臂、22-DoF手、头/腕相机及大规模人类/机器人数据；训练预算与完整架构细节摘录未覆盖。",
+      "technical_analysis_status": "ok",
+      "reading_scope": "HTML full text fetched; concise model analysis stored"
     },
     {
       "arxiv_id": "2610.40349",
@@ -221,9 +223,9 @@
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2610.40349",
-      "technical_analysis": null,
-      "technical_analysis_status": "skipped after previous API failure: ok",
-      "reading_scope": "HTML full text fetched; model analysis skipped after API failure"
+      "technical_analysis": "1）研究问题与任务设定：将接触丰富的人类灵巧操作演示转换为机器人域训练数据，以缓解人机传感与手形态差异造成的接触迁移困难；目标是在不用物体网格、物体位姿估计或物理仿真的条件下，用转换后的人类演示微调VLA策略，并在真实接触丰富任务上验证。\n\n2）方法：TouchBridge为软硬件协同框架。TouchBridge-Cap可穿戴接口记录RGB、手部运动与指尖触觉；机器人接口对齐腕相机与指尖触觉布局。Tac-Retarget以触觉为条件做重定向：指尖位姿对齐、接触块对齐（响应加权接触中心与活跃taxel空间分布）、接触激活图保留双手内及跨手同时接触的空间关系；优化机器人手基座位姿与关节。随后做机器人域视觉合成（SAM 2分割、ProPainter修补、渲染机器人mesh）和相机锚定动作转换（AprilTag锚点、末端相对动作）。\n\n3）数据与监督：每任务60个人类演示、60个遥操作机器人演示；触觉仅用于重定向，不作策略输入。重定向目标为Lpose+Lcontact+Lgraph+Lreg；策略训练损失摘录未覆盖。策略微调GR00T N1.7，并比较π0.5、Diffusion Policy及从头训练变体。\n\n4）实验：四个真实任务为Flip Book、Screw Bulb、Apply Sauce、Grasp Egg Roll；每策略20次试验，报告成功率、回放成功率、采集时间；接触误差在Isaac Sim的Grasp Egg Roll上评估。正文报告：人类数据策略平均成功率72.5%，遥操作77.5%；采集11.7 s对81.7 s，7.0×加速；Tac-Retarget较DexPilot、UniDex分别高25.0、42.5个百分点；回放成功率87.5%；接触误差4.667 mm，DexPilot 6.354 mm、UniDex 7.715 mm；消融无接触图6.659、无接触对齐7.071、仅运动学7.540 mm。预训练GR00T N1.7为72.5%，从头6.2%；π0.5为38.8%对3.8%；Diffusion Policy为13.8%。\n\n5）优势、局限与复现资源：作者声称优势为无物体模型/仿真、支持20 DoF手、无需任务专用机器人演示微调、采集快且性能接近遥操作。正文证据限于四任务与指定平台；更多局限未披露。复现需TouchBridge-Cap（RealSense D455、Hikrobot腕相机、Manus手套、PaXini触觉、AprilTag）、Moz1双臂机器人+Wuji Hands及对应相机/触觉，以及GR00T N1.7等策略；训练算力、代码与数据开放情况摘录未覆盖。",
+      "technical_analysis_status": "ok",
+      "reading_scope": "HTML full text fetched; concise model analysis stored"
     },
     {
       "arxiv_id": "2611.32101",
@@ -259,9 +261,9 @@
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.32101",
-      "technical_analysis": null,
-      "technical_analysis_status": "skipped after previous API failure: ok",
-      "reading_scope": "HTML full text fetched; model analysis skipped after API failure"
+      "technical_analysis": "1) 研究问题与任务设定：第一人称视觉演示缺少接触与力意图，论文问如何融合视觉和直接触觉，在无外接动捕条件下学习双手灵巧操作并迁移到机器人。任务为Bottle Handover与Box Rotation，仿真训练、真实部署。\n\n2) 方法模块与信息流：同步RGB-D、触觉手套和物体网格；SAM 3掩码、FoundationPose物体位姿、HaMeR/MANO手初始化并度量对齐；触觉读数池化至54区域并映射MANO锚点，以视觉、正则、接触、法向和接触保持损失优化腕姿与手指；用交互mesh的Laplacian坐标重定向到OmniHand 3；PPO残差RL奖励含运动跟踪、区域接触状态/力/过早接触惩罚及正则。actor无触觉，critic用模拟触觉特权信息；部署仅用物体位姿和本体感知。\n\n3) 训练数据、监督与损失：自采两任务演示，D435i 30 Hz、全掌触觉手套125 Hz并按时间戳同步；监督信号为上述重建损失与RL奖励，策略用PPO。损失权重、数据规模、训练时长及补充材料细节摘录未覆盖/未披露。\n\n4) 实验与结果：仿真两任务指标为物体关键点误差(mm)和成功率，基线REGRIND、SPIDER、MANIPTRANS。Ego2Real成功率均100%，误差4.73/2.29；REGRIND均100%，3.98/1.99；SPIDER均0%；MANIPTRANS为68.5%/49.6%。真实15试次：Ego2Real触觉细化12/15、15/15，Score 3.20/4.00；REGRIND同参考2/15、15/15，2.53/4.00；Ego2Real无细化2/15、0/15；raw hand为1/15、4/15。作者据此称两阶段触觉监督提升成功率；表中数字可直接核对。\n\n5) 优势、局限与复现：优势是重建与策略两阶段触觉监督互补、真实任务提升、部署不需机器人触觉。局限为仅两任务，接触区域对应、形态差异和重建噪声影响；作者称收益依赖任务接触需求。成功判定、权重和数据规模摘录未披露。复现需D435i、触觉手套、RTX 4090、Tianji Marvin Pro+OmniHand 3、FoundationPose、mjlab；软件版本和训练时长未披露。",
+      "technical_analysis_status": "ok",
+      "reading_scope": "HTML full text fetched; concise model analysis stored"
     },
     {
       "arxiv_id": "2611.30813",
@@ -321,9 +323,9 @@
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.30813",
-      "technical_analysis": null,
-      "technical_analysis_status": "skipped after previous API failure: ok",
-      "reading_scope": "HTML full text fetched; model analysis skipped after API failure"
+      "technical_analysis": "1) 研究问题与任务：比较自中心双臂操作中密集patch token的预训练视觉表示，而非第三人称池化向量；在24个任务（RoboCasa-GR1 12、RoboTwin 2.0 12）上评估适配、任务共享及数据/模型/层扫描，并检验诊断指标与闭环成功的关系。\n\n2) 方法：一个共享patch条件流匹配策略；编码器所有视角patch token拼接为上下文，DiT动作头去噪16步动作块，多任务另加冻结CLIP文本指令。关键机制为保留patch、冻结/微调、单/多任务共享，动作头与优化器固定。\n\n3) 训练：每任务RoboCasa 1000演示、RoboTwin 500；监督为演示动作块，流匹配速度回归，Beta(1.5,1)、每样本8噪声；AdamW 100k步、批128、4 GPU、BF16；微调编码器lr 1e-5。完整损失公式摘录未覆盖。\n\n4) 实验：指标为闭环成功率（每任务3评估种子×50回滚，12任务均值及传播偏差）；比较20编码器7家族、均值池化、冻结/微调、ST/MT。可核对：RoboCasa MT VGGT-Ω 35.39%、C-RADIOv4 34.78%、DINOv2 32.28%；RoboTwin MT DepthVLM 53.67%、Xiaomi-Robotics-1 53.22%。池化DINOv2 32.28→9.94、DINOv3 31.22→6.44；微调十对均升（Casa ST +1.11–9.44，Twin MT +2.22–26.06）；MT均值26.94→23.62，保留87.7%。IDM与Twin MT成功ρ=-0.75。\n\n5) 作者声称并给出表/图证据：保留patch、适配、共享有效；局限为跨套件差异属观测性、主比较单训练种子、诊断不稳定，IDM不能识别最佳或预测适配；部分消融在附录。复现需4 GPU、BF16、100k步、批128、代码库/Benchmark Zoo及附录检查点；硬件型号、总时长摘录未披露。",
+      "technical_analysis_status": "ok",
+      "reading_scope": "HTML full text fetched; concise model analysis stored"
     },
     {
       "arxiv_id": "2608.04196",
@@ -360,8 +362,8 @@
       "github_repositories": [],
       "full_text_source_url": "https://arxiv.org/html/2608.04196",
       "technical_analysis": null,
-      "technical_analysis_status": "skipped after previous API failure: ok",
-      "reading_scope": "HTML full text fetched; model analysis skipped after API failure"
+      "technical_analysis_status": "skipped: daily analysis cap reached (5)",
+      "reading_scope": "HTML full text fetched; model analysis cap reached"
     },
     {
       "arxiv_id": "2410.24035",
@@ -392,8 +394,8 @@
       "github_repositories": [],
       "full_text_source_url": "https://arxiv.org/html/2410.24035",
       "technical_analysis": null,
-      "technical_analysis_status": "skipped after previous API failure: ok",
-      "reading_scope": "HTML full text fetched; model analysis skipped after API failure"
+      "technical_analysis_status": "skipped: daily analysis cap reached (5)",
+      "reading_scope": "HTML full text fetched; model analysis cap reached"
     },
     {
       "arxiv_id": "2611.26916",
@@ -438,8 +440,8 @@
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.26916",
       "technical_analysis": null,
-      "technical_analysis_status": "skipped after previous API failure: ok",
-      "reading_scope": "HTML full text fetched; model analysis skipped after API failure"
+      "technical_analysis_status": "skipped: daily analysis cap reached (5)",
+      "reading_scope": "HTML full text fetched; model analysis cap reached"
     },
     {
       "arxiv_id": "2611.24836",
@@ -490,8 +492,8 @@
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.24836",
       "technical_analysis": null,
-      "technical_analysis_status": "skipped after previous API failure: ok",
-      "reading_scope": "HTML full text fetched; model analysis skipped after API failure"
+      "technical_analysis_status": "skipped: daily analysis cap reached (5)",
+      "reading_scope": "HTML full text fetched; model analysis cap reached"
     },
     {
       "arxiv_id": "2611.32786",
@@ -550,8 +552,8 @@
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.32786",
       "technical_analysis": null,
-      "technical_analysis_status": "skipped after previous API failure: ok",
-      "reading_scope": "HTML full text fetched; model analysis skipped after API failure"
+      "technical_analysis_status": "skipped: daily analysis cap reached (5)",
+      "reading_scope": "HTML full text fetched; model analysis cap reached"
     },
     {
       "arxiv_id": "2611.32162",
