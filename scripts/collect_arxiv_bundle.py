@@ -282,7 +282,7 @@ def extract_chat_text(message: dict) -> str:
         for part in content:
             if isinstance(part, dict) and isinstance(part.get("text"), str):
                 chunks.append(part["text"])
-        return "\\n".join(chunks).strip()
+        return "\n".join(chunks).strip()
     return ""
 
 
@@ -315,11 +315,13 @@ def call_chat_completion(
     session_id: str,
     max_tokens: int,
 ) -> tuple[str | None, str]:
+    thinking_enabled = max_tokens > 512
     payload = {
         "model": model,
-        "temperature": 0.1,
         "max_tokens": max_tokens,
         "stream": False,
+        "thinking": {"type": "enabled" if thinking_enabled else "disabled"},
+        "reasoning_effort": "low" if thinking_enabled else "none",
         "messages": messages,
     }
     try:
@@ -371,7 +373,7 @@ def probe_llm() -> tuple[str | None, str]:
             {"role": "user", "content": "请只回复：API测试成功。"},
         ],
         session_id=stable_opencode_session_id("daily-digest-preflight"),
-        max_tokens=128,
+        max_tokens=256,
     )
 
 
@@ -398,13 +400,13 @@ def summarize_with_llm(row: dict, full_text: str) -> tuple[str | None, str]:
         messages=[
             {"role": "system", "content": "你是谨慎的学术论文分析员，禁止臆测或编造实验细节。"},
             {"role": "user", "content": (
-                f"{prompt}\\n\\n论文 ID：{row['arxiv_id']}\\n标题：{row['title']}\\n"
-                f"作者：{', '.join(row.get('authors', []))}\\n摘要：{row['abstract']}\\n"
+                f"{prompt}\n\n论文 ID：{row['arxiv_id']}\n标题：{row['title']}\n"
+                f"作者：{', '.join(row.get('authors', []))}\n摘要：{row['abstract']}\n"
                 f"正文摘录：{full_text}"
             )},
         ],
         session_id=stable_opencode_session_id(row["arxiv_id"]),
-        max_tokens=4096,
+        max_tokens=8192,
     )
 
 
