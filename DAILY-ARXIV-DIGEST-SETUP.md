@@ -8,10 +8,17 @@ This workflow is a networked collector for the daily Chinese paper brief. It avo
 - Queries arXiv cs.RO, cs.CV, and cs.LG independently, sorted by last update, and keeps records updated within 14 days.
 - Uses keyword relevance to prepare a shortlist, but does not claim that keyword score is scientific quality.
 - Checks Hugging Face Daily Papers for upvotes/comments and searches GitHub README references for code signals.
-- Tries arXiv HTML and ar5iv for full-text excerpts; marks papers as abstract-only if neither works.
+- Tries arXiv HTML and ar5iv. If an OpenAI-compatible model API is configured, it creates a concise Chinese technical analysis from the fetched full text; raw paper text is not committed.
 - Commits JSON evidence to data/paper-digests/YYYY-MM-DD.json and data/paper-digests/latest.json.
 
-No model API key is required. The ChatGPT task can use the connected GitHub app to read the JSON evidence and write the human-facing analysis itself.
+For detailed method/experiment analysis, add these repository Actions secrets under Settings > Secrets and variables > Actions:
+- LLM_BASE_URL: OpenAI-compatible API root, including /v1 when required (do not include /chat/completions).
+- LLM_API_KEY: the provider API key.
+- LLM_MODEL: the exact model identifier supported by that endpoint.
+
+If these three secrets are absent, collection still runs, but the bundle contains abstracts and metadata only; the ChatGPT task must not invent full-text details. Never put keys in source files. The ChatGPT task uses the connected GitHub app to read the JSON evidence and produce the final human-facing brief.
+
+Important: this repository is public. Once enabled, the daily paper metadata and generated technical summaries will be publicly visible. Raw full-text content and API keys are not stored. If you want the evidence bundle to remain private, do not merge this PR into this public repository; use a private repository instead.
 
 ## Enable it
 
