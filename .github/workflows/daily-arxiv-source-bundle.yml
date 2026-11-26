@@ -1,6 +1,13 @@
 name: Collect daily embodied-AI papers
 
 on:
+  # Automatically validate collector changes; generated data commits do not match these paths.
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/daily-arxiv-source-bundle.yml"
+      - "scripts/collect_arxiv_bundle.py"
+      - "requirements-arxiv-digest.txt"
   schedule:
     # Run before the 09:00 ChatGPT brief; timezone is explicit.
     - cron: "35 8 * * *"
