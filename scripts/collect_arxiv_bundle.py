@@ -6,6 +6,7 @@ ChatGPT reads the resulting bundle and writes the human-facing analysis.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
@@ -223,6 +224,54 @@ def fetch_full_text(pid: str) -> tuple[str, str]:
     return "", ""
 
 
+def resolve_llm_chat_completions_url(base_url: str) -> str:
+    """Resolve legacy and current OpenCode Go base URLs to the documented endpoint."""
+    base_url = base_url.strip().rstrip("/")
+    if base_url.startswith("https://opencode.ai/zen/go"):
+        # Migrate the legacy URL used by the first version of this workflow.
+        return "https://opencode.ai/inference/go/openai/v1/chat/completions"
+    if base_url == "https://opencode.ai/inference/go":
+        return "https://opencode.ai/inference/go/openai/v1/chat/completions"
+    if base_url.endswith("/inference/go/openai/v1"):
+        return f"{base_url}/chat/completions"
+    if base_url.endswith("/chat/completions"):
+        return base_url
+    return f"{base_url}/chat/completions"
+
+
+def stable_opencode_session_id(arxiv_pid: str) -> str:
+    """Return a stable, non-secret OpenCode session ID for this paper's analysis."""
+    digest = hashlib.sha256(
+        f"embodied-ai-paper-digest:{arxiv_pid}".encode("utf-8")
+    ).hexdigest()[:32]
+    return f"ses_{digest}"
+
+
+def describe_llm_http_error(response: requests.Response) -> str:
+    """Keep useful API diagnostics without ever logging request credentials."""
+    try:
+        body = response.json()
+    except ValueError:
+        body = response.text
+    if isinstance(body, dict):
+        error = body.get("error")
+        if isinstance(error, dict):
+            body = error.get("message") or error.get("type") or body
+        elif isinstance(error, str):
+            body = error
+        else:
+            body = body.get("message") or body
+    detail = body if isinstance(body, str) else json.dumps(body, ensure_ascii=False)
+    detail = clean(detail)[:1200] or response.reason or "no response body"
+    request_id = (
+        response.headers.get("x-request-id")
+        or response.headers.get("request-id")
+        or response.headers.get("cf-ray")
+    )
+    suffix = f"; request_id={request_id}" if request_id else ""
+    return f"error: HTTP {response.status_code}: {detail}{suffix}"
+
+
 def summarize_with_llm(row: dict, full_text: str) -> tuple[str | None, str]:
     base_url = os.getenv("LLM_BASE_URL", "").strip().rstrip("/")
     api_key = os.getenv("LLM_API_KEY", "").strip()
@@ -251,10 +300,16 @@ def summarize_with_llm(row: dict, full_text: str) -> tuple[str | None, str]:
             )},
         ],
     }
+    endpoint = resolve_llm_chat_completions_url(base_url)
     try:
         response = HTTP.post(
-            f"{base_url}/chat/completions",
-            headers={**HEADERS, "Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+            endpoint,
+            headers={
+                **HEADERS,
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+                "x-opencode-session": stable_opencode_session_id(row["arxiv_id"]),
+            },
             json=payload,
             timeout=(20, 180),
         )
@@ -262,6 +317,10 @@ def summarize_with_llm(row: dict, full_text: str) -> tuple[str | None, str]:
         result = response.json()
         content = result["choices"][0]["message"]["content"]
         return content.strip(), "ok"
+    except requests.HTTPError as exc:
+        if exc.response is not None:
+            return None, describe_llm_http_error(exc.response)
+        return None, f"error: HTTP request failed: {exc}"
     except Exception as exc:
         return None, f"error: {type(exc).__name__}: {exc}"
 
@@ -308,13 +367,22 @@ def main() -> int:
 
     fulltext_ids = []
     llm_statuses = []
+    llm_failure = None
     llm_model = os.getenv("LLM_MODEL") or None
     for row in candidates[:10]:
         full_text, source_url = fetch_full_text(row["arxiv_id"])
         row["full_text_source_url"] = source_url or None
         if full_text:
             fulltext_ids.append(row["arxiv_id"])
+            if llm_failure:
+                row["technical_analysis"] = None
+                row["technical_analysis_status"] = f"skipped after previous API failure: {llm_failure}"
+                row["reading_scope"] = "HTML full text fetched; model analysis skipped after API failure"
+                llm_statuses.append(row["technical_analysis_status"])
+                continue
             summary, summary_status = summarize_with_llm(row, full_text)
+            if not summary:
+                llm_failure = summary_status
             row["technical_analysis"] = summary
             row["technical_analysis_status"] = summary_status
             row["reading_scope"] = "HTML full text fetched; concise model analysis stored" if summary else "HTML full text fetched but no analysis stored"
@@ -349,6 +417,7 @@ def main() -> int:
             "github_repository_search": github_status,
             "html_full_text_ids": fulltext_ids,
             "llm_analysis_model": llm_model,
+            "llm_analysis_endpoint": resolve_llm_chat_completions_url(os.getenv("LLM_BASE_URL", "")) if os.getenv("LLM_BASE_URL") else None,
             "llm_analysis_configured": bool(os.getenv("LLM_BASE_URL") and os.getenv("LLM_API_KEY") and os.getenv("LLM_MODEL")),
             "llm_analysis_statuses": llm_statuses,
         },
