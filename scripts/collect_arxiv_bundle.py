@@ -315,13 +315,11 @@ def call_chat_completion(
     session_id: str,
     max_tokens: int,
 ) -> tuple[str | None, str]:
-    thinking_enabled = max_tokens > 512
     payload = {
         "model": model,
+        "temperature": 0.1,
         "max_tokens": max_tokens,
         "stream": False,
-        "thinking": {"type": "enabled" if thinking_enabled else "disabled"},
-        "reasoning_effort": "low" if thinking_enabled else "none",
         "messages": messages,
     }
     try:
@@ -373,7 +371,7 @@ def probe_llm() -> tuple[str | None, str]:
             {"role": "user", "content": "请只回复：API测试成功。"},
         ],
         session_id=stable_opencode_session_id("daily-digest-preflight"),
-        max_tokens=256,
+        max_tokens=128,
     )
 
 
@@ -406,7 +404,7 @@ def summarize_with_llm(row: dict, full_text: str) -> tuple[str | None, str]:
             )},
         ],
         session_id=stable_opencode_session_id(row["arxiv_id"]),
-        max_tokens=8192,
+        max_tokens=4096,
     )
 
 
