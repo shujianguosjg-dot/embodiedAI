@@ -217,10 +217,53 @@ def fetch_full_text(pid: str) -> tuple[str, str]:
                 tag.decompose()
             text = clean(soup.get_text(" ", strip=True))
             if len(text) > 1000:
-                return text[:14000], url
+                return text[:36000], url
         except Exception:
             continue
     return "", ""
+
+
+def summarize_with_llm(row: dict, full_text: str) -> tuple[str | None, str]:
+    base_url = os.getenv("LLM_BASE_URL", "").strip().rstrip("/")
+    api_key = os.getenv("LLM_API_KEY", "").strip()
+    model = os.getenv("LLM_MODEL", "").strip()
+    if not (base_url and api_key and model):
+        return None, "not configured; only metadata/abstract collected"
+    prompt = (
+        "请作为严谨的论文技术分析员，仅依据提供的论文元数据、摘要和正文摘录，生成中文结构化分析。"
+        "依次说明：1)研究问题与任务设定；2)方法模块、信息流和关键机制；"
+        "3)训练数据、监督信号与损失（正文未提供则明确写未披露/摘录未覆盖）；"
+        "4)实验数据集、指标、基线和定量结果（没有明确数字就不要编造）；"
+        "5)优势、局限与复现所需资源。"
+        "区分作者声称与正文中可直接核对的证据；不得补写论文未提供的信息。"
+        "控制在 500–800 个中文字符。"
+    )
+    payload = {
+        "model": model,
+        "temperature": 0.1,
+        "max_tokens": 1400,
+        "messages": [
+            {"role": "system", "content": "你是谨慎的学术论文分析员，禁止臆测或编造实验细节。"},
+            {"role": "user", "content": (
+                f"{prompt}\n\n论文 ID：{row['arxiv_id']}\n标题：{row['title']}\n"
+                f"作者：{', '.join(row.get('authors', []))}\n摘要：{row['abstract']}\n"
+                f"正文摘录：{full_text}"
+            )},
+        ],
+    }
+    try:
+        response = HTTP.post(
+            f"{base_url}/chat/completions",
+            headers={**HEADERS, "Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+            json=payload,
+            timeout=(20, 180),
+        )
+        response.raise_for_status()
+        result = response.json()
+        content = result["choices"][0]["message"]["content"]
+        return clean(content), "ok"
+    except Exception as exc:
+        return None, f"error: {type(exc).__name__}: {exc}"
 
 
 def main() -> int:
@@ -264,13 +307,23 @@ def main() -> int:
     github_status = "searched for top 15 candidates (or fewer)" if candidates else "no relevant arXiv candidates"
 
     fulltext_ids = []
-    for row in candidates[:12]:
-        excerpt, source_url = fetch_full_text(row["arxiv_id"])
-        row["full_text_excerpt"] = excerpt
+    llm_statuses = []
+    llm_model = os.getenv("LLM_MODEL") or None
+    for row in candidates[:10]:
+        full_text, source_url = fetch_full_text(row["arxiv_id"])
         row["full_text_source_url"] = source_url or None
-        row["reading_scope"] = "HTML full-text excerpt" if excerpt else "abstract and metadata only"
-        fulltext_ids.append(row["arxiv_id"])
-        time.sleep(0.5)
+        if full_text:
+            fulltext_ids.append(row["arxiv_id"])
+            summary, summary_status = summarize_with_llm(row, full_text)
+            row["technical_analysis"] = summary
+            row["technical_analysis_status"] = summary_status
+            row["reading_scope"] = "HTML full text fetched; concise model analysis stored" if summary else "HTML full text fetched but no analysis stored"
+            llm_statuses.append(summary_status)
+        else:
+            row["technical_analysis"] = None
+            row["technical_analysis_status"] = "no HTML full text available"
+            row["reading_scope"] = "abstract and metadata only"
+        time.sleep(1)
 
     cutoff = datetime.now(timezone.utc) - timedelta(hours=72)
     recent_72h = []
@@ -295,6 +348,9 @@ def main() -> int:
             "huggingface_daily_papers": hf_status,
             "github_repository_search": github_status,
             "html_full_text_ids": fulltext_ids,
+            "llm_analysis_model": llm_model,
+            "llm_analysis_configured": bool(os.getenv("LLM_BASE_URL") and os.getenv("LLM_API_KEY") and os.getenv("LLM_MODEL")),
+            "llm_analysis_statuses": llm_statuses,
         },
         "counts": {
             "arxiv_records_after_window_filter": len(merged),
