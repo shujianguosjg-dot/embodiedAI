@@ -1,0 +1,49 @@
+name: Collect daily embodied-AI papers
+
+on:
+  schedule:
+    # Run before the 09:00 ChatGPT brief; timezone is explicit.
+    - cron: "35 8 * * *"
+      timezone: "Asia/Taipei"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-arxiv-source-bundle
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements-arxiv-digest.txt
+
+      - name: Collect arXiv, Hugging Face and GitHub evidence
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python scripts/collect_arxiv_bundle.py
+
+      - name: Commit source bundle
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/paper-digests
+          if git diff --cached --quiet; then
+            echo "No source-bundle changes."
+          else
+            git commit -m "chore: update daily paper source bundle"
+            git push
+          fi
