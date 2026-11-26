@@ -272,6 +272,109 @@ def describe_llm_http_error(response: requests.Response) -> str:
     return f"error: HTTP {response.status_code}: {detail}{suffix}"
 
 
+def extract_chat_text(message: dict) -> str:
+    """Extract only user-visible assistant text; never expose reasoning_content."""
+    content = message.get("content")
+    if isinstance(content, str):
+        return content.strip()
+    if isinstance(content, list):
+        chunks = []
+        for part in content:
+            if isinstance(part, dict) and isinstance(part.get("text"), str):
+                chunks.append(part["text"])
+        return "\\n".join(chunks).strip()
+    return ""
+
+
+def chat_response_diagnostic(result: dict, message: dict | None) -> str:
+    choices = result.get("choices") or []
+    choice = choices[0] if choices and isinstance(choices[0], dict) else {}
+    usage = result.get("usage") or {}
+    usage_summary = {
+        key: usage.get(key)
+        for key in ("prompt_tokens", "completion_tokens", "total_tokens")
+        if key in usage
+    }
+    message = message if isinstance(message, dict) else {}
+    return (
+        "empty assistant content"
+        f"; finish_reason={choice.get('finish_reason')}"
+        f"; message_keys={sorted(message.keys())}"
+        f"; reasoning_content_present={bool(message.get('reasoning_content'))}"
+        f"; tool_calls={len(message.get('tool_calls') or [])}"
+        f"; usage={json.dumps(usage_summary, ensure_ascii=False)}"
+    )
+
+
+def call_chat_completion(
+    *,
+    endpoint: str,
+    api_key: str,
+    model: str,
+    messages: list[dict],
+    session_id: str,
+    max_tokens: int,
+) -> tuple[str | None, str]:
+    payload = {
+        "model": model,
+        "temperature": 0.1,
+        "max_tokens": max_tokens,
+        "stream": False,
+        "messages": messages,
+    }
+    try:
+        response = HTTP.post(
+            endpoint,
+            headers={
+                **HEADERS,
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+                "x-opencode-session": session_id,
+            },
+            json=payload,
+            timeout=(20, 180),
+        )
+        response.raise_for_status()
+        result = response.json()
+        choices = result.get("choices") or []
+        if not choices or not isinstance(choices[0], dict):
+            return None, f"error: invalid chat-completions response; top_level_keys={sorted(result.keys())}"
+        message = choices[0].get("message")
+        if not isinstance(message, dict):
+            return None, f"error: missing assistant message; choice_keys={sorted(choices[0].keys())}"
+        content = extract_chat_text(message)
+        if not content:
+            return None, f"error: {chat_response_diagnostic(result, message)}"
+        return content, "ok"
+    except requests.HTTPError as exc:
+        if exc.response is not None:
+            return None, describe_llm_http_error(exc.response)
+        return None, f"error: HTTP request failed: {exc}"
+    except Exception as exc:
+        return None, f"error: {type(exc).__name__}: {exc}"
+
+
+def probe_llm() -> tuple[str | None, str]:
+    """One cheap end-to-end probe before spending tokens on paper analysis."""
+    base_url = os.getenv("LLM_BASE_URL", "").strip().rstrip("/")
+    api_key = os.getenv("LLM_API_KEY", "").strip()
+    model = os.getenv("LLM_MODEL", "").strip()
+    if not (base_url and api_key and model):
+        return None, "not configured"
+    endpoint = resolve_llm_chat_completions_url(base_url)
+    return call_chat_completion(
+        endpoint=endpoint,
+        api_key=api_key,
+        model=model,
+        messages=[
+            {"role": "system", "content": "你是一个简短的连通性测试助手。"},
+            {"role": "user", "content": "请只回复：API测试成功。"},
+        ],
+        session_id=stable_opencode_session_id("daily-digest-preflight"),
+        max_tokens=128,
+    )
+
+
 def summarize_with_llm(row: dict, full_text: str) -> tuple[str | None, str]:
     base_url = os.getenv("LLM_BASE_URL", "").strip().rstrip("/")
     api_key = os.getenv("LLM_API_KEY", "").strip()
@@ -287,42 +390,22 @@ def summarize_with_llm(row: dict, full_text: str) -> tuple[str | None, str]:
         "区分作者声称与正文中可直接核对的证据；不得补写论文未提供的信息。"
         "控制在 500–800 个中文字符。"
     )
-    payload = {
-        "model": model,
-        "temperature": 0.1,
-        "max_tokens": 1400,
-        "messages": [
+    endpoint = resolve_llm_chat_completions_url(base_url)
+    return call_chat_completion(
+        endpoint=endpoint,
+        api_key=api_key,
+        model=model,
+        messages=[
             {"role": "system", "content": "你是谨慎的学术论文分析员，禁止臆测或编造实验细节。"},
             {"role": "user", "content": (
-                f"{prompt}\n\n论文 ID：{row['arxiv_id']}\n标题：{row['title']}\n"
-                f"作者：{', '.join(row.get('authors', []))}\n摘要：{row['abstract']}\n"
+                f"{prompt}\\n\\n论文 ID：{row['arxiv_id']}\\n标题：{row['title']}\\n"
+                f"作者：{', '.join(row.get('authors', []))}\\n摘要：{row['abstract']}\\n"
                 f"正文摘录：{full_text}"
             )},
         ],
-    }
-    endpoint = resolve_llm_chat_completions_url(base_url)
-    try:
-        response = HTTP.post(
-            endpoint,
-            headers={
-                **HEADERS,
-                "Authorization": f"Bearer {api_key}",
-                "Content-Type": "application/json",
-                "x-opencode-session": stable_opencode_session_id(row["arxiv_id"]),
-            },
-            json=payload,
-            timeout=(20, 180),
-        )
-        response.raise_for_status()
-        result = response.json()
-        content = result["choices"][0]["message"]["content"]
-        return content.strip(), "ok"
-    except requests.HTTPError as exc:
-        if exc.response is not None:
-            return None, describe_llm_http_error(exc.response)
-        return None, f"error: HTTP request failed: {exc}"
-    except Exception as exc:
-        return None, f"error: {type(exc).__name__}: {exc}"
+        session_id=stable_opencode_session_id(row["arxiv_id"]),
+        max_tokens=4096,
+    )
 
 
 def main() -> int:
@@ -367,8 +450,10 @@ def main() -> int:
 
     fulltext_ids = []
     llm_statuses = []
-    llm_failure = None
     llm_model = os.getenv("LLM_MODEL") or None
+    llm_preflight_response, llm_preflight_status = probe_llm()
+    llm_failure = None if llm_preflight_response else llm_preflight_status
+    llm_analysis_count = 0
     for row in candidates[:10]:
         full_text, source_url = fetch_full_text(row["arxiv_id"])
         row["full_text_source_url"] = source_url or None
@@ -380,9 +465,17 @@ def main() -> int:
                 row["reading_scope"] = "HTML full text fetched; model analysis skipped after API failure"
                 llm_statuses.append(row["technical_analysis_status"])
                 continue
+            if llm_analysis_count >= 5:
+                row["technical_analysis"] = None
+                row["technical_analysis_status"] = "skipped: daily analysis cap reached (5)"
+                row["reading_scope"] = "HTML full text fetched; model analysis cap reached"
+                llm_statuses.append(row["technical_analysis_status"])
+                continue
             summary, summary_status = summarize_with_llm(row, full_text)
             if not summary:
                 llm_failure = summary_status
+            else:
+                llm_analysis_count += 1
             row["technical_analysis"] = summary
             row["technical_analysis_status"] = summary_status
             row["reading_scope"] = "HTML full text fetched; concise model analysis stored" if summary else "HTML full text fetched but no analysis stored"
@@ -419,6 +512,8 @@ def main() -> int:
             "llm_analysis_model": llm_model,
             "llm_analysis_endpoint": resolve_llm_chat_completions_url(os.getenv("LLM_BASE_URL", "")) if os.getenv("LLM_BASE_URL") else None,
             "llm_analysis_configured": bool(os.getenv("LLM_BASE_URL") and os.getenv("LLM_API_KEY") and os.getenv("LLM_MODEL")),
+            "llm_preflight_status": llm_preflight_status,
+            "llm_analysis_success_count": llm_analysis_count,
             "llm_analysis_statuses": llm_statuses,
         },
         "counts": {
