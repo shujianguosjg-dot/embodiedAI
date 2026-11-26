@@ -49,5 +49,20 @@ jobs:
             echo "No source-bundle changes."
           else
             git commit -m "chore: update daily paper source bundle"
-            git push
+
+            # A manual run or another workflow may have pushed after checkout.
+            # Rebase the generated digest onto the newest main and prefer this
+            # run's generated JSON if the same daily files changed concurrently.
+            for attempt in 1 2 3; do
+              git fetch origin main
+              git rebase -X theirs origin/main
+              if git push origin HEAD:main; then
+                exit 0
+              fi
+              echo "Push attempt $attempt failed; retrying against latest main."
+              sleep 2
+            done
+
+            echo "Unable to push source bundle after 3 attempts."
+            exit 1
           fi
