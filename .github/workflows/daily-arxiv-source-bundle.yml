@@ -35,6 +35,9 @@ jobs:
       - name: Collect arXiv, Hugging Face and GitHub evidence
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
         run: python scripts/collect_arxiv_bundle.py
 
       - name: Commit source bundle
