@@ -261,7 +261,7 @@ def summarize_with_llm(row: dict, full_text: str) -> tuple[str | None, str]:
         response.raise_for_status()
         result = response.json()
         content = result["choices"][0]["message"]["content"]
-        return clean(content), "ok"
+        return content.strip(), "ok"
     except Exception as exc:
         return None, f"error: {type(exc).__name__}: {exc}"
 
