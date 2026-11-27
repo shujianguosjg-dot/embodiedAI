@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "report_date_local": "2026-11-26",
-  "generated_at_local": "2026-11-26T10:42:22.446318+08:00",
+  "report_date_local": "2026-11-27",
+  "generated_at_local": "2026-11-27T16:58:55.154811+08:00",
   "timezone": "Asia/Taipei",
   "search_window_days": 14,
   "preferred_window_hours": 72,
@@ -44,9 +44,9 @@
     ]
   },
   "counts": {
-    "arxiv_records_after_window_filter": 2715,
-    "relevant_candidates": 706,
-    "candidates_updated_in_last_72h": 293
+    "arxiv_records_after_window_filter": 2717,
+    "relevant_candidates": 725,
+    "candidates_updated_in_last_72h": 222
   },
   "selection_note": "This is an evidence bundle, not a quality ranking. Select 1-5 papers only after checking scientific contribution, evidence, author affiliations, and community signals. Do not treat popularity or institutional prestige as proof of quality.",
   "candidates": [
@@ -74,25 +74,11 @@
       "huggingface_signal": null,
       "github_repositories": [
         {
-          "name": "DoHeyYeah/arXiV-favor",
-          "url": "https://github.com/DoHeyYeah/arXiV-favor",
-          "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
-          "stars": 1,
-          "updated_at": "2026-11-12T01:27:28Z"
-        },
-        {
-          "name": "cakerdsp/geometry-vision-daily",
-          "url": "https://github.com/cakerdsp/geometry-vision-daily",
-          "description": "a repo for geometry-vision paper ",
-          "stars": 2,
-          "updated_at": "2026-11-11T21:11:32Z"
-        },
-        {
-          "name": "amani-td/World-models",
-          "url": "https://github.com/amani-td/World-models",
+          "name": "Wutronics/vla-paper-watch",
+          "url": "https://github.com/Wutronics/vla-paper-watch",
           "description": null,
-          "stars": 1,
-          "updated_at": "2026-11-12T14:04:22Z"
+          "stars": 0,
+          "updated_at": "2026-11-12T08:06:06Z"
         },
         {
           "name": "BaiShuanghao/my_arXiv_daily",
@@ -102,15 +88,29 @@
           "updated_at": "2026-11-25T07:31:20Z"
         },
         {
+          "name": "DoHeyYeah/arXiV-favor",
+          "url": "https://github.com/DoHeyYeah/arXiV-favor",
+          "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
+          "stars": 1,
+          "updated_at": "2026-11-12T01:27:28Z"
+        },
+        {
+          "name": "amani-td/World-models",
+          "url": "https://github.com/amani-td/World-models",
+          "description": null,
+          "stars": 1,
+          "updated_at": "2026-11-12T14:04:22Z"
+        },
+        {
           "name": "VinayMohan0409/DexLatentWorld",
           "url": "https://github.com/VinayMohan0409/DexLatentWorld",
           "description": null,
-          "stars": 3,
-          "updated_at": "2026-11-25T11:43:53Z"
+          "stars": 4,
+          "updated_at": "2026-11-26T05:35:33Z"
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.30907",
-      "technical_analysis": "1）研究问题：作者旨在从无动作标签的3D操作观测中学习跨 embodiment 的连续潜在动作，并用于零样本机器人操作预测与控制；任务设定包括点云场景未来演化预测、潜在空间规划及执行。  \n2）方法：共享PTv3编码器；逆动力学模型由相邻点云推断32维潜在动作（4×8），前向动力学以初始场景和K=5个潜在动作一次预测多horizon粒子位移；因果掩码防未来动作泄漏。跨embodiment对比损失对齐对应转移，统一潜在空间直接作为CEM-MPC搜索空间；再由预测粒子运动结合已知几何/运动学恢复机器人目标，无需学习式latent-to-action解码器。  \n3）训练数据与监督：正文称用H2O双人操作子集、MANO手/物体网格与轨迹，重定向至8种机器人手；每实体1024粒子。监督为运动加权Huber位移损失加对比损失，λ_con=0.15；摘录未覆盖更多数据划分统计。  \n4）实验：H2O验证用Mover EPE（mm）；表1正确latent平均手/物EPE 7.94/13.59，显著优于零/乱序/固定条件。RoboSuite零样本夹爪任务成功率50%/80%/100%/100%。RoboCasa经LoRA适配后Reach/Grasp/Place为90%/92%/60%，对比DexWM报告72%/58%/28%；规划候选256对5120。真实世界86%（50 trials）为摘要声称，正文摘录未展开。  \n5）优势：几何接地、无动作标签、跨形态与免解码执行；局限：预测仅1秒，部分观测需重建与适配，真实世界证据细节及统计不确定性摘录未覆盖。复现资源：项目页称代码/视频公开；正文提及单张H100，DexWM为八张H100。",
+      "technical_analysis": "1）研究问题与任务设定：面向跨机器人形态的零样本操作，学习无需动作标签的统一3D潜在动作世界模型；用重定向人类操作演示的点云/粒子观测学习连续动作表示，并在潜在动作空间做MPC。作者声称可迁移至未见形态与夹爪，并支持真实灵巧手零样本操作。\n\n2）方法模块与信息流：共享PTv3场景编码；逆动力学由相邻点云状态推断32维潜在动作 \\(z_t\\in\\mathbb{R}^{4\\times8}\\)；前向动力学以初始场景和 \\(K=5\\) 个潜在动作，经因果分块解码预测各点位移场；跨形态对比损失对齐对应转移。部署时用CEM优化潜在动作序列，以几何代价评估预测粒子轨迹；再由已知几何/运动学恢复机器人目标（夹爪质心/位姿；灵巧手Kabsch对齐加非线性IK），无需形态特定latent-to-action解码器。\n\n3）训练数据、监督与损失：正文使用H2O双人操作子集，含MANO手网格、物体网格与跟踪位姿，重定向至8种机器人手；每实体1024粒子。监督信号为粒子位移，非动作标签。损失为运动加权Huber位移损失加对比损失，\\(\\lambda_{\\rm con}=0.15\\)；采样间隔0.2 s、预测5步约1 s。训练硬件、时长及完整超参未披露/摘录未覆盖。\n\n4）实验与结果：几何指标为Mover EPE（mm），5步、移动粒子阈值>5 mm。表1中正确潜在动作手/物体/静态场景EPE为7.94/13.59/0.87，零条件为53.17/43.43/0.68；跨形态cross-decoding图5未给具体数值，但称低于49.5 mm无运动基线；形态线性探针26.6%，PTv3特征85.3%（随机9.1%）。RoboSuite零样本夹爪4任务各10次：50%/80%/100%/100%；PointWorld两共享任务均100%。RoboCasa消融各20次：Latent-IK为100%/90%/60%，Latent-Decoder为100%/85%/80%。DexWM基准各50回合：90%/92%/60% 对 72%/58%/28%，并称候选评估256对5120、1对8张H100。真实世界86%（50次、5任务）仅为摘要声称，正文摘录未覆盖细节。\n\n5）优势、局限与复现：优势是统一潜在动作、免动作标签/解码器、跨形态与低规划预算；局限是依赖重定向数据与已知几何/运动学、预测时域仅1 s，部分关键结果仅图示或摘要声称。复现需H2O、重定向流程、PTv3/Utonia代码、RoboSuite/RoboCasa，以及项目页源码；训练与真实部署资源未完整披露。",
       "technical_analysis_status": "ok",
       "reading_scope": "HTML full text fetched; concise model analysis stored"
     },
@@ -146,22 +146,22 @@
       "huggingface_signal": null,
       "github_repositories": [
         {
-          "name": "DoHeyYeah/arXiV-favor",
-          "url": "https://github.com/DoHeyYeah/arXiV-favor",
-          "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
-          "stars": 1,
-          "updated_at": "2026-11-12T01:27:28Z"
-        },
-        {
           "name": "iszhanjiawei/flow_matching_arxiv_daily",
           "url": "https://github.com/iszhanjiawei/flow_matching_arxiv_daily",
           "description": null,
           "stars": 106,
           "updated_at": "2026-11-12T06:00:09Z"
+        },
+        {
+          "name": "DoHeyYeah/arXiV-favor",
+          "url": "https://github.com/DoHeyYeah/arXiV-favor",
+          "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
+          "stars": 1,
+          "updated_at": "2026-11-12T01:27:28Z"
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.24585",
-      "technical_analysis": "1）研究问题与任务设定：作者称自我中心人类记录比机器人示教便宜，但人机形态/运动学不同，人类数据缺关节位置与执行器命令，仅有重定向EEF动作；需回答“人类数据如何监督策略”和“部署时灵巧机器人如何读出动作”。任务为双机械臂+22DoF手灵巧操作，含机器人示教微调与零任务机器人数据的人到机器人迁移。\n\n2）方法：SHAPE为VLA；backbone（Qwen3-VL-4B）将EEF chunk的离散FAST tokens作辅助任务直接监督；共享0.6B flow-matching expert并行输出EEF与joint两条可执行流，各有投影，attention mask隔离且expert不读FAST token以防复制；部署可选joint直接控制或EEF经IK执行。\n\n3）训练数据与损失：预训练人类2.8k小时、73.1k episodes、320任务，仅EEF+FAST；机器人228小时、10.5k episodes、105任务，含EEF/joint/FAST；人机1:1。损失为ℒ=ℒFM_EEF+mJℒFM_joint+0.1ℒFAST+1ℒvideo+0.2ℒtext；人类样本无joint标签。人类微调时禁用FAST。完整超参摘录未覆盖。\n\n4）实验：真实机器人六任务各20 trials，指标为成功率/部分分；SHAPE joint 0.80，π0.5 0.63，GR00T N1.7 0.51。H2R三任务零机器人demo：SHAPE EEF 21/60（35%），无FAST 7/60，无人类4/60，joint流0/60。仿真RoboCasa GR-1 24任务：SHAPE 72.2%，π0.5 64.8%，GR00T 62.6%。\n\n5）优势与局限：作者声称离散监督驱动backbone梯度并形成动作相关表征，双流兼顾精细控制与迁移；可核对证据为上述定量与消融。局限：毫米级连接器重插仍难；H2R失败多在抓取；joint流在仅人类微调时重放且0成功。复现资源：正文给出backbone/expert规模、数据小时数、平台DoF；完整超参、代码与数据许可摘录未覆盖。",
+      "technical_analysis": "1）研究问题与任务设定：作者指出，第一视角人类记录缺少机器人关节位置与执行器命令，只能经重定向得到末端执行器（EEF）动作；据此提出两个问题：人类数据应如何监督策略，以及多指灵巧机器人部署时如何读出动作。任务是双机械臂+22-DoF手的灵巧操作，既评估机器人示教微调，也评估零任务机器人数据的human-to-robot迁移。\n\n2）方法：SHAPE以Qwen3-VL-4B为backbone，将EEF chunk的离散FAST token作为辅助任务直接监督backbone；共享0.6B flow-matching专家并行输出EEF流与关节流，注意力掩码隔离两流并阻止专家读取FAST token。损失含EEF流FM、带缺失掩码的关节流FM、FAST、视频与文本损失（λF=0.1、λV=1、λT=0.2）。部署时省略辅助头，任选一流执行；EEF流经IK转关节目标。\n\n3）训练数据与监督：预训练用2.8k小时人类数据（320任务、73.1k episodes，仅EEF+FAST）和228小时机器人遥操作（105任务、10.5k episodes，EEF/关节/FAST），按1:1采样；人类样本无关节标签，关节损失被掩码。摘录未覆盖完整超参数与算力。\n\n4）实验：真实机器人六任务，每任务20 trials，基线π0.5、GR00T N1.7；表2显示SHAPE关节流六任务均值0.80，π0.5为0.63，GR00T为0.51；严格完成76/120对61/120、51/120。三任务H2R无机器人示教，表3 SHAPE EEF流21/60（35%），w/o FAST为7/60，w/o human为4/60，w/o both为0/60；关节流0/60。仿真RoboCasa GR-1 24任务，表4 SHAPE 72.2%，π0.5 64.8%，GR00T 62.6%。作者声称离散监督驱动backbone梯度并形成动作相关表征；摘录给出探针与最近邻统计作支持。\n\n5）优势、局限与复现：优势是离散监督与人类预训练互补、双流可灵活读出；局限包括毫米级连接器重插仍困难、H2R多在抓取失败、关节流H2R为0/240，且仅机器人数据加FAST在留出机器人任务上平均增1.1 mm误差。复现需Qwen3-VL-4B、0.6B专家、Wan视频头、FAST 1,024词表及上述数据/平台；计算资源与完整实现细节摘录未覆盖。",
       "technical_analysis_status": "ok",
       "reading_scope": "HTML full text fetched; concise model analysis stored"
     },
@@ -194,6 +194,13 @@
       "huggingface_signal": null,
       "github_repositories": [
         {
+          "name": "BaiShuanghao/my_arXiv_daily",
+          "url": "https://github.com/BaiShuanghao/my_arXiv_daily",
+          "description": null,
+          "stars": 222,
+          "updated_at": "2026-11-25T07:31:20Z"
+        },
+        {
           "name": "DoHeyYeah/arXiV-favor",
           "url": "https://github.com/DoHeyYeah/arXiV-favor",
           "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
@@ -208,22 +215,15 @@
           "updated_at": "2026-11-03T13:59:15Z"
         },
         {
-          "name": "BaiShuanghao/my_arXiv_daily",
-          "url": "https://github.com/BaiShuanghao/my_arXiv_daily",
-          "description": null,
-          "stars": 222,
-          "updated_at": "2026-11-25T07:31:20Z"
-        },
-        {
           "name": "Vincentqyw/cv-arxiv-daily",
           "url": "https://github.com/Vincentqyw/cv-arxiv-daily",
           "description": "🎓Automatically Update CV Papers Daily using Github Actions",
-          "stars": 1521,
-          "updated_at": "2026-11-25T18:00:23Z"
+          "stars": 1520,
+          "updated_at": "2026-11-27T05:22:12Z"
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2610.40349",
-      "technical_analysis": "1) 研究问题与任务设定：作者针对接触丰富灵巧操作中“人类演示到机器人”的感知与形态差异，设定无需任务专用机器人演示、将人类演示转换为机器人域训练数据并微调VLA的策略学习任务。此为目标设定，属作者声称。\n\n2) 方法：硬件端TouchBridge-Cap与机器人接口对齐腕相机和指尖触觉布局；软件端Tac-Retarget以指尖位姿、触觉接触块中心/active taxel及接触激活图优化双手机器人状态；再经SAM2/ProPainter视觉合成、机器人渲染和相机锚定动作转换，输出机器人域观测与动作以微调GR00T N1.7。作者声称重定向无需物体网格、位姿估计或物理仿真。\n\n3) 训练数据与损失：每任务60条人类演示转换；另60条遥操作演示仅作对照参考，不混入训练；触觉仅用于重定向，非策略输入。重定向优化损失含Lpose、Lcontact、Lgraph、Lreg（式1–6）；策略微调的具体损失与优化细节摘录未覆盖。\n\n4) 实验：真实机器人Moz1+Wuji Hands，四任务为Flip Book、Screw Bulb、Apply Sauce、Grasp Egg Roll；指标含成功率（每任务20次）、回放成功率、采集时间、接触误差；基线为DexPilot、UniDex及消融。正文可核对结果：72.5% vs遥操作77.5%；采集11.7s vs81.7s（7.0×）；回放87.5%；接触误差4.667mm vs6.354/7.715mm；超基线25.0/42.5百分点；预训练GR00T 72.5% vs scratch 6.2%，π0.5为38.8% vs3.8%，Diffusion Policy为13.8%。\n\n5) 优势、局限与复现：优势为直接转换、采集快、性能接近遥操作；局限摘录未系统讨论，训练超参、计算资源、策略损失未披露；接触评估使用Isaac Sim与重建网格（分析用）。复现需TouchBridge-Cap（D455、Hikrobot腕相机、Manus手套、PaXini触觉、AprilTag）、Moz1/Wuji Hands及SAM2、ProPainter、GR00T N1.7等。定量结果可直接核对，可扩展性属作者声称。",
+      "technical_analysis": "1）研究问题：作者旨在将人类接触丰富灵巧操作演示转为机器人域训练数据，解决人机传感与手部形态差异导致的接触迁移难题；任务为真实机器人接触丰富操作策略学习。\n\n2）方法：TouchBridge为软硬件协同框架。TouchBridge-Cap采集自我中心/腕部RGB、手部运动与指尖触觉；机器人接口对齐腕相机与指尖触觉布局。Tac-Retarget以触觉为条件，联合指尖位姿对齐、接触块中心/活跃触觉单元对齐及触觉激活接触图，保持双手内与跨手接触空间关系；正文称无需物体网格、物体位姿估计或物理仿真。随后做机器人域视觉合成（SAM 2分割、ProPainter修补、渲染机器人网格）和相机锚定动作构造，输出演示以微调预训练VLA（GR00T N1.7）。\n\n3）训练数据与监督：每任务60个人类演示、60个遥操作机器人演示；触觉仅用于重定向，非策略输入。重定向优化含位姿、接触、图与正则项；具体权重、VLA微调损失及训练细节摘录未覆盖。\n\n4）实验：四个真实任务：翻书、拧灯泡、涂酱、抓蛋卷。指标含策略成功率、回放成功率、采集时间、接触误差。正文给出：人类数据微调策略平均成功率72.5%，遥操作数据77.5%；采集快7.0倍（11.7s对81.7s）；较DexPilot、UniDex分别高25.0、42.5个百分点；回放成功率87.5%；接触误差4.667mm，低于DexPilot 6.354mm、UniDex 7.715mm。预训练GR00T N1.7为72.5%，从头训练6.2%。\n\n5）优势与局限：作者声称优势为免物体模型/仿真、支持20 DoF手、无需任务专用机器人演示且采集快。可直接核对证据限于上述四任务、单一Moz1双Wuji Hands平台及60演示设置；更广泛化、失败机制与计算资源摘录未覆盖。复现需TouchBridge-Cap（RealSense D455、腕相机、Manus手套、PaXini触觉、AprilTag）、对应机器人传感接口、GR00T N1.7及四任务数据。",
       "technical_analysis_status": "ok",
       "reading_scope": "HTML full text fetched; concise model analysis stored"
     },
@@ -258,10 +258,17 @@
           "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
           "stars": 1,
           "updated_at": "2026-11-12T01:27:28Z"
+        },
+        {
+          "name": "Yuxiang-Ma/Awesome-Tactile-Hands",
+          "url": "https://github.com/Yuxiang-Ma/Awesome-Tactile-Hands",
+          "description": "Taxel Atlas: a filterable catalog of whole-hand tactile datasets (human gloves and dexterous robot hands), with a browser viewer",
+          "stars": 0,
+          "updated_at": "2026-11-03T13:59:15Z"
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.32101",
-      "technical_analysis": "1) 研究问题与任务设定：针对第一人称视觉演示缺乏接触与力意图，作者提出结合RGB-D与触觉手套，将双手灵巧演示迁移至机器人；实验任务为Bottle Handover、Box Rotation，作者称可扩展并提升迁移可靠性。\n\n2) 方法模块与信息流：同步RGB-D和手套读数；SAM3分割、FoundationPose估物体、HaMeR/MANO初始化；度量对齐后，将触觉池化至54区并映射MANO锚点，以接触、法向、保持损失细化腕位和手指；用交互网格Laplacian重定向至OmniHand 3；以PPO训练残差策略，奖励含运动跟踪、区域接触状态/力/过早接触惩罚和正则；actor无触觉，critic用特权触觉；部署仅需物体位姿与本体感知。\n\n3) 数据、监督与损失：两任务采集egocentric RGB-D（30Hz）与全掌触觉（125Hz），时间戳同步，并提供物体mesh与桌面；监督含视觉轮廓/深度、正则、触觉接触/法向/保持及RL奖励。损失权重、训练超参、演示规模摘录未覆盖/未披露。\n\n4) 实验与结果：仿真指标Err(mm)↓、SR%，基线REGRIND、SPIDER、MANIPTRANS。表1 Ego2Real为4.73/100%与2.29/100%；REGRIND为3.98/100%、1.99/100%；SPIDER均0%；MANIPTRANS为68.5%、49.6%。真实表2 Bottle：Ego2Real 12/15，REGRIND 2/15（同触觉细化）；无细化Ego2Real 2/15。Box：有细化均15/15，无细化0/15；裸手1/15、4/15。作者称触觉两阶段互补；可核对证据显示仿真成功率未超过REGRIND且误差略高。\n\n5) 优势、局限与复现：优势是触觉同时约束重建与策略、部署不需机器人触觉、接触密集任务提升。局限为仅两任务、真实样本小、重建偏定性、依赖mesh/标定/位姿估计，数据规模与训练细节未披露。复现需RGB-D相机、触觉手套、物体mesh、RTX4090、Tianji Marvin Pro+OmniHand 3及mjlab/MuJoCo。",
+      "technical_analysis": "1) 研究问题与任务设定：作者关注仅凭自我中心视觉演示难以恢复接触与力意图，提出结合RGB-D与触觉手套，将双臂灵巧操作技能迁移至机器人；任务为Bottle Handover与Box Rotation。  \n2) 方法模块与信息流：RGB-D/触觉输入经SAM 3、HaMeR、FoundationPose初始化手—物运动，做度量对齐；触觉读数映射至MANO表面54区域锚点，以接触、法向及持续接触项优化手姿；再以交互网格拉普拉斯坐标重定向至OmniHand 3；最后在仿真中用PPO训练残差策略，奖励含运动跟踪、区域接触状态/力/过早接触惩罚及正则。Actor不含触觉，critic含特权触觉；部署无需机器人侧触觉。  \n3) 训练数据、监督与损失：演示由Intel RealSense D435i（30 Hz）和全掌触觉手套（125 Hz）同步采集；演示规模未披露。重建损失含视觉、正则、接触、法向、持续项；RL奖励细节、权重及接触传感器配置称在补充材料，摘录未覆盖。  \n4) 实验与结果：仿真指标为物体关键点误差(mm)与成功率；基线REGRIND、SPIDER、MANIPTRANS。可核对：Ego2Real为4.73/100%与2.29/100%；REGRIND为3.98/100%与1.99/100%；SPIDER为12.93/0%与11.76/0%；MANIPTRANS为5.70/68.5%与8.04/49.6%。真实世界每任务15次：Ego2Real（触觉细化）12/15、15/15；REGRIND同参考2/15、15/15；无细化均0/15；纯裸手1/15、4/15。Score定义与成功判据摘录未覆盖。  \n5) 优势、局限与复现资源：作者声称两阶段触觉监督互补并提升真实成功率；证据支持细化参考对真实任务关键。局限包括仅两任务、真实Bottle非全成功、视觉遮挡与区域对应/力容忍仍存不确定性。复现需RGB-D相机、触觉手套（型号未披露）、RTX 4090、Tianji Marvin Pro与OmniHand 3、FoundationPose/mjlab等；代码、数据与训练规模未披露。",
       "technical_analysis_status": "ok",
       "reading_scope": "HTML full text fetched; concise model analysis stored"
     },
@@ -301,13 +308,6 @@
       "huggingface_signal": null,
       "github_repositories": [
         {
-          "name": "DoHeyYeah/arXiV-favor",
-          "url": "https://github.com/DoHeyYeah/arXiV-favor",
-          "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
-          "stars": 1,
-          "updated_at": "2026-11-12T01:27:28Z"
-        },
-        {
           "name": "iszhanjiawei/flow_matching_arxiv_daily",
           "url": "https://github.com/iszhanjiawei/flow_matching_arxiv_daily",
           "description": null,
@@ -320,10 +320,17 @@
           "description": null,
           "stars": 222,
           "updated_at": "2026-11-25T07:31:20Z"
+        },
+        {
+          "name": "DoHeyYeah/arXiV-favor",
+          "url": "https://github.com/DoHeyYeah/arXiV-favor",
+          "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
+          "stars": 1,
+          "updated_at": "2026-11-12T01:27:28Z"
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.30813",
-      "technical_analysis": "1）研究问题与任务设定：评估自我中心双臂操作中patch级视觉表示；一个共享flow-matching策略读取7家族20个编码器，覆盖24个任务（RoboCasa-GR1与RoboTwin 2.0各12个），考察适配、任务共享及数据、模型大小、层扫描。作者称其不同于常用“第三人称池化向量”比较。\n\n2）方法：策略读取各视角全部patch token（去类/寄存器token，无额外归一化）；DiT动作头16块、宽768、12头，32个学习query与16个噪声动作token，交叉注意上下文为多视角patch拼接；多任务追加冻结CLIP文本。输出16步动作块，回归flow-matching速度；流时间Beta(1.5,1)，每样本8噪声，推理Euler 15/10步。诊断含token统计、状态/物体探针、已发表视觉分数、逆动力学读数（IDM）。\n\n3）数据与监督：RoboCasa-GR1：12任务、每任务1000演示、头部视角、29维动作、执行12/16；RoboTwin 2.0：12任务、每任务500演示、头+双腕、14维关节、执行16/16。监督为16步动作块及流匹配速度；具体损失公式摘录未覆盖。训练100k AdamW步、全局batch 128、四GPU BF16；动作头峰值学习率1e-4，微调编码器1e-5。\n\n4）实验：指标为闭环成功率；20冻结编码器多任务、17单任务、5微调。主比较每配置1训练种子、3评估种子、每任务50 rollouts。可核对数字：RoboCasa MT VGGT-Ω 35.39%、C-RADIOv4 34.78%、DINOv2 32.28%；RoboTwin MT DepthVLM 53.67%、Xiaomi-Robotics-1 53.22%、Qwen3-VL 51.44%。池化使DINOv2 32.28→9.94、DINOv3 31.22→6.44；微调十对均升，VGGT-Ω RoboTwin 50.00→76.06，DINOv2 49.39→51.61；共享策略保留87.7%（26.94→23.62）。IDM在RoboTwin ρ=-0.75，但作者称不能稳定替代rollout。\n\n5）优势/局限/复现：优势是统一动作头与预算、patch级闭环比较及多类诊断；局限包括两套环境差异为观察性、主比较单训练种子、诊断关联跨设置不稳定、IDM不能识别最佳编码器。复现需代码库与Benchmark Zoo、四GPU及上述训练预算；完整实现见附录A，数据许可与存储细节摘录未覆盖。",
+      "technical_analysis": "1) **问题与任务**：评估机器人操作中预训练视觉编码器的 patch 级（非池化第三人称）表示；在自我中心双臂任务上，以共享策略比较 20 个编码器/7 家族，覆盖冻结/微调、单/多任务、数据/模型/层与池化扫描。作者声称这是首个联合控制与诊断的 patch 级自我中心双臂基准。\n\n2) **方法**：共享 DiT flow-matching 动作头读取各视角全部 patch token（去 class/register），输出 16 步动作块；多任务追加冻结 CLIP 文本特征。诊断含 token 统计、状态/物体读出、已发表视觉分数、IDM（16 步间隔预测标准化命令位移）。信息流：头/腕图像→编码器 patch→交叉注意力→动作块。\n\n3) **数据/监督/损失**：RoboCasa-GR1 12 任务、1000 演示/任务、头视角、29 维动作、执行 12/16；RoboTwin 2.0 12 任务、500 演示/任务、头+双腕、14 维关节、执行 16/16。监督为归一化 16 步动作块的 flow-matching 速度；MT 用语言条件。训练 100k AdamW 步、batch 128、4 GPU；动作头 138.669–156.478M；头 lr 1e-4、编码器微调 1e-5；flow time Beta(1.5,1)、8 噪声、推理 Euler 15/10。完整损失公式与附录实现摘录未覆盖。\n\n4) **实验**：指标为闭环成功率（3 评估种子×50 rollout/任务，12 任务均值）及 Spearman ρ 等；基线含均值池化、冻结/微调、ST/MT 及预测 mean baseline。可核对：池化使 DINOv2 32.28→9.94、DINOv3 31.22→6.44（Casa MT）；微调 10 对均升（Casa ST +1.11–9.44，Twin MT +2.22–26.06）；VGGT-Ω Twin 50.00→76.06；MT 保留 87.7% ST（26.94→23.62）；IDM 与 Twin MT 成功 ρ=-0.75（q=0.020）；ImageNet 探针 ρ=0.07/0.38；跨基准排名 ρ=0.43。\n\n5) **优势/局限/复现**：优势是共享策略与预算下多角度比较，量化 patch 保留和适配收益；作者明确称 IDM 较强但无统计量可替代 rollout，且不识别最佳编码器/不预测适配增益。局限：两套件机器人/视角/动作同时变化，差异为观察性；主比较单种子，成本高（49.7–195.3 TFLOPs/步）。复现需代码库/Benchmark Zoo、20 编码器检查点、两仿真套件、4 GPU 及附录 A 配方；完整资源清单摘录未覆盖。",
       "technical_analysis_status": "ok",
       "reading_scope": "HTML full text fetched; concise model analysis stored"
     },
@@ -429,15 +436,7 @@
       "html_url": "https://arxiv.org/html/2611.26916",
       "relevance_score": 15,
       "huggingface_signal": null,
-      "github_repositories": [
-        {
-          "name": "RealMaker001/Jun-paper-tracker",
-          "url": "https://github.com/RealMaker001/Jun-paper-tracker",
-          "description": "Daily arXiv paper tracker: 3DGS, Visual Localization, SLAM, Keypoint Detection, Target Tracking",
-          "stars": 0,
-          "updated_at": "2026-11-14T12:20:17Z"
-        }
-      ],
+      "github_repositories": [],
       "full_text_source_url": "https://arxiv.org/html/2611.26916",
       "technical_analysis": null,
       "technical_analysis_status": "skipped: daily analysis cap reached (5)",
@@ -469,18 +468,18 @@
       "huggingface_signal": null,
       "github_repositories": [
         {
-          "name": "DoHeyYeah/arXiV-favor",
-          "url": "https://github.com/DoHeyYeah/arXiV-favor",
-          "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
-          "stars": 1,
-          "updated_at": "2026-11-12T01:27:28Z"
-        },
-        {
           "name": "BaiShuanghao/my_arXiv_daily",
           "url": "https://github.com/BaiShuanghao/my_arXiv_daily",
           "description": null,
           "stars": 222,
           "updated_at": "2026-11-25T07:31:20Z"
+        },
+        {
+          "name": "DoHeyYeah/arXiV-favor",
+          "url": "https://github.com/DoHeyYeah/arXiV-favor",
+          "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
+          "stars": 1,
+          "updated_at": "2026-11-12T01:27:28Z"
         },
         {
           "name": "rayanrsr/RLCV-Papers",
@@ -522,6 +521,13 @@
       "huggingface_signal": null,
       "github_repositories": [
         {
+          "name": "BaiShuanghao/my_arXiv_daily",
+          "url": "https://github.com/BaiShuanghao/my_arXiv_daily",
+          "description": null,
+          "stars": 222,
+          "updated_at": "2026-11-25T07:31:20Z"
+        },
+        {
           "name": "DoHeyYeah/arXiV-favor",
           "url": "https://github.com/DoHeyYeah/arXiV-favor",
           "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
@@ -532,22 +538,8 @@
           "name": "TingtingLiao/SimPWM",
           "url": "https://github.com/TingtingLiao/SimPWM",
           "description": null,
-          "stars": 2,
-          "updated_at": "2026-11-25T23:58:20Z"
-        },
-        {
-          "name": "arxivsub/arXivSub_daily_arxiv",
-          "url": "https://github.com/arxivsub/arXivSub_daily_arxiv",
-          "description": "Daily arXiv AI summarization powered by arXivSub",
-          "stars": 4,
-          "updated_at": "2026-11-11T14:16:31Z"
-        },
-        {
-          "name": "BaiShuanghao/my_arXiv_daily",
-          "url": "https://github.com/BaiShuanghao/my_arXiv_daily",
-          "description": null,
-          "stars": 222,
-          "updated_at": "2026-11-25T07:31:20Z"
+          "stars": 6,
+          "updated_at": "2026-11-27T06:10:24Z"
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.32786",
@@ -575,13 +567,6 @@
       "relevance_score": 14,
       "huggingface_signal": null,
       "github_repositories": [
-        {
-          "name": "arxivsub/arXivSub_daily_arxiv",
-          "url": "https://github.com/arxivsub/arXivSub_daily_arxiv",
-          "description": "Daily arXiv AI summarization powered by arXivSub",
-          "stars": 4,
-          "updated_at": "2026-11-11T14:16:31Z"
-        },
         {
           "name": "BaiShuanghao/my_arXiv_daily",
           "url": "https://github.com/BaiShuanghao/my_arXiv_daily",
@@ -647,37 +632,41 @@
           "name": "MAGICLAB-NUS/Force2Act",
           "url": "https://github.com/MAGICLAB-NUS/Force2Act",
           "description": "Force2Act: A Force-Aware Visuomotor Policy for Generalizable Compliant Robot Manipulation",
-          "stars": 10,
-          "updated_at": "2026-11-25T15:25:32Z"
+          "stars": 12,
+          "updated_at": "2026-11-27T04:31:04Z"
         }
       ]
     },
     {
-      "arxiv_id": "2611.21938",
-      "title": "HubEgo-100K: In-the-Wild Egocentric Video of Skilled Work for Robot Learning",
-      "abstract": "Robot policies trained by imitation generalize poorly outside the environments and objects seen in training. Published data-scaling studies find that generalization grows with the diversity of training environments and objects rather than with more demonstrations per environment. Robot data is costly to collect across many environments, whereas egocentric human video can be recorded in the wild at scale; existing egocentric video, however, mostly shows daily-life activity and contains little skilled work in real workplaces. We present HubEgo-100K, a dataset built for diversity. This version of the paper covers the first release, v1.0: 10,124 hours of 1080p egocentric video with synchronized 100 Hz inertial (IMU) data from one head-mounted phone camera. In v1.0, 12,227 contributors record their own unscripted work in 15,548 environments (each one contributor's own setting of one type, such as their kitchen or workshop) across 11 setting types, 30 work categories, 56 task types and 35 action families, with 83% of hours in workplace settings. The release comprises 72,754 episodes with machine-generated action and language annotations, in LeRobot and MCAP formats under CC BY 4.0. We measure diversity along each axis, show that inside v1.0, with episodes in random order, new contributors and words keep appearing, and relate the measurements to published evidence on six data properties tied to policy performance, including hand visibility and inertial sensing. We also document collection, curation, privacy measures and data format, and provide a datasheet. Later versions of this paper will add benchmarks and cover further releases toward 100,000 hours.",
+      "arxiv_id": "2611.34741",
+      "title": "ELMO: Emergent Representations In Imitation Learning Via Dynamic Hierarchical Action Chunking",
+      "abstract": "Robot trajectories naturally decompose into variable-length phases with distinct semantic intents, such as reaching, grasping, and lifting. However, training policies to minimize MSE treats all actions as equal, obscuring their semantic structure. While latent action models attempt to create a structured prediction target by compressing action chunks into latent representations, existing approaches rely on two-stage training and context-blind decoders. Consequently, their representations are context-agnostic motion codes (e.g., \"move down\") which fail to capture behavioural intent (e.g., \"pick up the block\"). To overcome these bottlenecks, we introduce the Emergent Latent-action MOdel (ELMO), an end-to-end framework that encodes robot trajectories as grounded semantic codes -- representations that ground task-level behavioural intent in the current environment. ELMO jointly trains a VLA planner and an observation-conditioned decoder over dynamically chunked trajectories, learning a semantically grounded action space without separate pretraining. Across standard benchmarks, ELMO outperforms comparable prior methods by 9.6 percentage points on LIBERO-Plus and by 0.75 in average task length on CALVIN. Furthermore, on Blocks -- our shortcut-free simulation and real-world generalization benchmark -- ELMO reaches a 38.6% success rate while all baselines remain below 5%, demonstrating its ability to capture the semantic structure of demonstrations. Website: https://uoft-isl.github.io/elmo.github.io/",
       "authors": [
-        "Javad Amirian",
-        "Armin Kiani",
-        "Loïc Schaeffer",
-        "Tim Sprecher",
-        "Mohamed Taha",
-        "Karthik Yadati"
+        "Jasper Gerigk",
+        "Yang Xu",
+        "Nicholas Rhinehart",
+        "Igor Gilitschenski"
       ],
       "affiliations_from_arxiv_metadata": [],
-      "published": "2026-11-16T21:56:17Z",
-      "updated": "2026-11-16T21:56:17Z",
+      "published": "2026-11-25T17:19:06Z",
+      "updated": "2026-11-25T17:19:06Z",
       "categories": [
-        "cs.RO",
-        "cs.CV",
-        "cs.LG"
+        "cs.RO"
       ],
       "primary_category": "cs.RO",
-      "arxiv_url": "https://arxiv.org/abs/2611.21938",
-      "html_url": "https://arxiv.org/html/2611.21938",
-      "relevance_score": 14,
+      "arxiv_url": "https://arxiv.org/abs/2611.34741",
+      "html_url": "https://arxiv.org/html/2611.34741",
+      "relevance_score": 13,
       "huggingface_signal": null,
-      "github_repositories": []
+      "github_repositories": [
+        {
+          "name": "BaiShuanghao/my_arXiv_daily",
+          "url": "https://github.com/BaiShuanghao/my_arXiv_daily",
+          "description": null,
+          "stars": 222,
+          "updated_at": "2026-11-25T07:31:20Z"
+        }
+      ]
     },
     {
       "arxiv_id": "2605.29416",
@@ -769,12 +758,12 @@
         "Han Dong",
         "Haozhe Shan",
         "Yong Dai",
-        "Xiangcong Ren",
+        "Xiancong Ren",
         "Xiaozhu Ju"
       ],
       "affiliations_from_arxiv_metadata": [],
       "published": "2026-10-21T15:23:18Z",
-      "updated": "2026-11-24T14:19:24Z",
+      "updated": "2026-11-25T14:46:09Z",
       "categories": [
         "cs.CV"
       ],

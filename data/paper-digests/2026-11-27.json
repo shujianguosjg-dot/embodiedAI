@@ -1,0 +1,819 @@
+{
+  "schema_version": 1,
+  "report_date_local": "2026-11-27",
+  "generated_at_local": "2026-11-27T16:58:55.154811+08:00",
+  "timezone": "Asia/Taipei",
+  "search_window_days": 14,
+  "preferred_window_hours": 72,
+  "source_status": {
+    "arxiv_by_category": {
+      "cs.RO": "ok: 1000 recent/updated records",
+      "cs.CV": "ok: 1000 recent/updated records",
+      "cs.LG": "ok: 1000 recent/updated records"
+    },
+    "huggingface_daily_papers": "ok: 100 papers with HF daily-paper signals",
+    "github_repository_search": "searched for top 15 candidates (or fewer)",
+    "html_full_text_ids": [
+      "2611.30907",
+      "2611.24585",
+      "2610.40349",
+      "2611.32101",
+      "2611.30813",
+      "2608.04196",
+      "2410.24035",
+      "2611.26916",
+      "2611.24836",
+      "2611.32786"
+    ],
+    "llm_analysis_model": "deepseek-v4.1-flash",
+    "llm_analysis_endpoint": "https://opencode.ai/inference/go/openai/v1/chat/completions",
+    "llm_analysis_configured": true,
+    "llm_preflight_status": "ok",
+    "llm_analysis_success_count": 5,
+    "llm_analysis_statuses": [
+      "ok",
+      "ok",
+      "ok",
+      "ok",
+      "ok",
+      "skipped: daily analysis cap reached (5)",
+      "skipped: daily analysis cap reached (5)",
+      "skipped: daily analysis cap reached (5)",
+      "skipped: daily analysis cap reached (5)",
+      "skipped: daily analysis cap reached (5)"
+    ]
+  },
+  "counts": {
+    "arxiv_records_after_window_filter": 2717,
+    "relevant_candidates": 725,
+    "candidates_updated_in_last_72h": 222
+  },
+  "selection_note": "This is an evidence bundle, not a quality ranking. Select 1-5 papers only after checking scientific contribution, evidence, author affiliations, and community signals. Do not treat popularity or institutional prestige as proof of quality.",
+  "candidates": [
+    {
+      "arxiv_id": "2611.30907",
+      "title": "DexLatentWorld: 3D Cross-Embodiment Latent Action World Models for Zero-Shot Robotic Manipulation",
+      "abstract": "World models facilitate planning and control in robotic manipulation by enabling agents to anticipate the consequences of their actions. However, they typically rely on action-labelled interaction data that is costly to acquire and difficult to scale. These models are also often tied to the specific embodiment they were trained on, limiting transferability to previously unseen robot morphologies. We introduce a 3D latent-action world model that learns continuous action representations directly from point-cloud observations of retargeted human manipulation demonstrations. A contrastive objective is used to encourage consistent representations of motion across embodiments. The resulting unified latent action space serves directly as the search space for model-predictive control, where sampled latent actions condition particle-based future predictions. Executable robot commands are then recovered from the predicted geometric motion without requiring an embodiment-specific action decoder. Through extensive evaluations, we demonstrate that the learned latent actions exhibit controllable and compositional motion, transfer to unseen robot embodiments, and support zero-shot manipulation with unseen gripper geometries. Following task-agnostic adaptation, our model achieves 90%, 92%, and 60% success on reaching, grasping, and placing, respectively, compared with DexWM's reported 72%, 58%, and 28%. Finally, we demonstrate zero-shot real-world manipulation with an unseen dexterous hand, achieving an 86% success rate across 50 trials on five diverse tasks involving pushing, grasping, and lifting everyday objects. These results highlight the potential of geometry-grounded latent actions as a unified, transferable interface for world-model-based robotic manipulation. Project materials, including demonstration videos and source code, are available at https://vinaymohan0409.github.io/DexLatentWorld/.",
+      "authors": [
+        "Vinay Udit Mohan",
+        "Xuchuan Huang",
+        "Rolandos Alexandros Potamias"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-11-23T16:05:37Z",
+      "updated": "2026-11-23T16:05:37Z",
+      "categories": [
+        "cs.RO",
+        "cs.CV",
+        "cs.LG"
+      ],
+      "primary_category": "cs.RO",
+      "arxiv_url": "https://arxiv.org/abs/2611.30907",
+      "html_url": "https://arxiv.org/html/2611.30907",
+      "relevance_score": 16,
+      "huggingface_signal": null,
+      "github_repositories": [
+        {
+          "name": "Wutronics/vla-paper-watch",
+          "url": "https://github.com/Wutronics/vla-paper-watch",
+          "description": null,
+          "stars": 0,
+          "updated_at": "2026-11-12T08:06:06Z"
+        },
+        {
+          "name": "BaiShuanghao/my_arXiv_daily",
+          "url": "https://github.com/BaiShuanghao/my_arXiv_daily",
+          "description": null,
+          "stars": 222,
+          "updated_at": "2026-11-25T07:31:20Z"
+        },
+        {
+          "name": "DoHeyYeah/arXiV-favor",
+          "url": "https://github.com/DoHeyYeah/arXiV-favor",
+          "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
+          "stars": 1,
+          "updated_at": "2026-11-12T01:27:28Z"
+        },
+        {
+          "name": "amani-td/World-models",
+          "url": "https://github.com/amani-td/World-models",
+          "description": null,
+          "stars": 1,
+          "updated_at": "2026-11-12T14:04:22Z"
+        },
+        {
+          "name": "VinayMohan0409/DexLatentWorld",
+          "url": "https://github.com/VinayMohan0409/DexLatentWorld",
+          "description": null,
+          "stars": 4,
+          "updated_at": "2026-11-26T05:35:33Z"
+        }
+      ],
+      "full_text_source_url": "https://arxiv.org/html/2611.30907",
+      "technical_analysis": "1）研究问题与任务设定：面向跨机器人形态的零样本操作，学习无需动作标签的统一3D潜在动作世界模型；用重定向人类操作演示的点云/粒子观测学习连续动作表示，并在潜在动作空间做MPC。作者声称可迁移至未见形态与夹爪，并支持真实灵巧手零样本操作。\n\n2）方法模块与信息流：共享PTv3场景编码；逆动力学由相邻点云状态推断32维潜在动作 \\(z_t\\in\\mathbb{R}^{4\\times8}\\)；前向动力学以初始场景和 \\(K=5\\) 个潜在动作，经因果分块解码预测各点位移场；跨形态对比损失对齐对应转移。部署时用CEM优化潜在动作序列，以几何代价评估预测粒子轨迹；再由已知几何/运动学恢复机器人目标（夹爪质心/位姿；灵巧手Kabsch对齐加非线性IK），无需形态特定latent-to-action解码器。\n\n3）训练数据、监督与损失：正文使用H2O双人操作子集，含MANO手网格、物体网格与跟踪位姿，重定向至8种机器人手；每实体1024粒子。监督信号为粒子位移，非动作标签。损失为运动加权Huber位移损失加对比损失，\\(\\lambda_{\\rm con}=0.15\\)；采样间隔0.2 s、预测5步约1 s。训练硬件、时长及完整超参未披露/摘录未覆盖。\n\n4）实验与结果：几何指标为Mover EPE（mm），5步、移动粒子阈值>5 mm。表1中正确潜在动作手/物体/静态场景EPE为7.94/13.59/0.87，零条件为53.17/43.43/0.68；跨形态cross-decoding图5未给具体数值，但称低于49.5 mm无运动基线；形态线性探针26.6%，PTv3特征85.3%（随机9.1%）。RoboSuite零样本夹爪4任务各10次：50%/80%/100%/100%；PointWorld两共享任务均100%。RoboCasa消融各20次：Latent-IK为100%/90%/60%，Latent-Decoder为100%/85%/80%。DexWM基准各50回合：90%/92%/60% 对 72%/58%/28%，并称候选评估256对5120、1对8张H100。真实世界86%（50次、5任务）仅为摘要声称，正文摘录未覆盖细节。\n\n5）优势、局限与复现：优势是统一潜在动作、免动作标签/解码器、跨形态与低规划预算；局限是依赖重定向数据与已知几何/运动学、预测时域仅1 s，部分关键结果仅图示或摘要声称。复现需H2O、重定向流程、PTv3/Utonia代码、RoboSuite/RoboCasa，以及项目页源码；训练与真实部署资源未完整披露。",
+      "technical_analysis_status": "ok",
+      "reading_scope": "HTML full text fetched; concise model analysis stored"
+    },
+    {
+      "arxiv_id": "2611.24585",
+      "title": "SHAPE: Discrete Supervision and Parallel Continuous Streams for Learning Dexterous Manipulation from Egocentric Human Data",
+      "abstract": "Egocentric human recordings are far cheaper than dexterous robot demonstrations, promising stronger pretraining and direct skill learning without task-specific robot data. Yet humans and robots differ in morphology and kinematics, so human recordings lack the joint positions and actuator commands that supervise robot policies, providing only retargeted end-effector (EEF) actions. This raises two questions: how human data should supervise the policy, and how a dexterous robot should read out actions at deployment. We address both in SHAPE (Supervision from Human Action tokens with Parallel Executable streams), a vision-language-action (VLA) model whose backbone predicts discrete action tokens of EEF chunks as an auxiliary task, while a shared flow-matching expert outputs two executable streams, EEF and joint. On a bimanual robot with 22-DoF hands, a matched study shows that discrete supervision helps learn from human data, driving backbone gradients and shaping action-informative representations across domains. Under standard control pipelines at deployment, direct joint readout excels at fine-grained control with robot demonstrations, scoring 0.80 across six tasks against 0.63 for π0.5, whereas IK-based EEF readout excels at human-to-robot transfer. Pretrained with human data and discrete tokens, SHAPE learns new tasks from human demonstrations without task-specific robot data.",
+      "authors": [
+        "Yaping Li",
+        "Zhihong Liu",
+        "Jiacheng Li",
+        "Yi Yang",
+        "Wenchao Yue",
+        "Mingzhe Ye",
+        "Xiangcheng Liu",
+        "Yiyang Chen",
+        "Haotian He",
+        "Qi Zhang",
+        "Haonan Wang",
+        "Dahua Lin",
+        "Zhijie Deng"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-11-18T15:14:26Z",
+      "updated": "2026-11-18T15:14:26Z",
+      "categories": [
+        "cs.RO"
+      ],
+      "primary_category": "cs.RO",
+      "arxiv_url": "https://arxiv.org/abs/2611.24585",
+      "html_url": "https://arxiv.org/html/2611.24585",
+      "relevance_score": 16,
+      "huggingface_signal": null,
+      "github_repositories": [
+        {
+          "name": "iszhanjiawei/flow_matching_arxiv_daily",
+          "url": "https://github.com/iszhanjiawei/flow_matching_arxiv_daily",
+          "description": null,
+          "stars": 106,
+          "updated_at": "2026-11-12T06:00:09Z"
+        },
+        {
+          "name": "DoHeyYeah/arXiV-favor",
+          "url": "https://github.com/DoHeyYeah/arXiV-favor",
+          "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
+          "stars": 1,
+          "updated_at": "2026-11-12T01:27:28Z"
+        }
+      ],
+      "full_text_source_url": "https://arxiv.org/html/2611.24585",
+      "technical_analysis": "1）研究问题与任务设定：作者指出，第一视角人类记录缺少机器人关节位置与执行器命令，只能经重定向得到末端执行器（EEF）动作；据此提出两个问题：人类数据应如何监督策略，以及多指灵巧机器人部署时如何读出动作。任务是双机械臂+22-DoF手的灵巧操作，既评估机器人示教微调，也评估零任务机器人数据的human-to-robot迁移。\n\n2）方法：SHAPE以Qwen3-VL-4B为backbone，将EEF chunk的离散FAST token作为辅助任务直接监督backbone；共享0.6B flow-matching专家并行输出EEF流与关节流，注意力掩码隔离两流并阻止专家读取FAST token。损失含EEF流FM、带缺失掩码的关节流FM、FAST、视频与文本损失（λF=0.1、λV=1、λT=0.2）。部署时省略辅助头，任选一流执行；EEF流经IK转关节目标。\n\n3）训练数据与监督：预训练用2.8k小时人类数据（320任务、73.1k episodes，仅EEF+FAST）和228小时机器人遥操作（105任务、10.5k episodes，EEF/关节/FAST），按1:1采样；人类样本无关节标签，关节损失被掩码。摘录未覆盖完整超参数与算力。\n\n4）实验：真实机器人六任务，每任务20 trials，基线π0.5、GR00T N1.7；表2显示SHAPE关节流六任务均值0.80，π0.5为0.63，GR00T为0.51；严格完成76/120对61/120、51/120。三任务H2R无机器人示教，表3 SHAPE EEF流21/60（35%），w/o FAST为7/60，w/o human为4/60，w/o both为0/60；关节流0/60。仿真RoboCasa GR-1 24任务，表4 SHAPE 72.2%，π0.5 64.8%，GR00T 62.6%。作者声称离散监督驱动backbone梯度并形成动作相关表征；摘录给出探针与最近邻统计作支持。\n\n5）优势、局限与复现：优势是离散监督与人类预训练互补、双流可灵活读出；局限包括毫米级连接器重插仍困难、H2R多在抓取失败、关节流H2R为0/240，且仅机器人数据加FAST在留出机器人任务上平均增1.1 mm误差。复现需Qwen3-VL-4B、0.6B专家、Wan视频头、FAST 1,024词表及上述数据/平台；计算资源与完整实现细节摘录未覆盖。",
+      "technical_analysis_status": "ok",
+      "reading_scope": "HTML full text fetched; concise model analysis stored"
+    },
+    {
+      "arxiv_id": "2610.40349",
+      "title": "TouchBridge: Tactile-Conditioned Human-to-Robot Transfer for Dexterous Manipulation",
+      "abstract": "Human demonstrations offer an efficient and scalable source of data for dexterous robot manipulation, but differences in sensing and hand morphology complicate the transfer of contact-rich interactions. We present TouchBridge, a hardware--software co-designed framework for human-to-robot data transformation. A wearable human demonstration interface and a corresponding robot interface establish cross-embodiment correspondence in visual and fingertip tactile sensing. We introduce Tac-Retarget, a tactile-conditioned retargeting method that uses measured contact to align fingertip contact patches and preserve their spatial relations within and across hands. Unlike object-aware or simulation-based transfer pipelines, Tac-Retarget requires no object mesh, object-pose estimate, or physics simulation for retargeting, enabling direct and scalable conversion of human demonstrations into robot-domain training data. Combined with visual synthesis and camera-anchored action conversion, TouchBridge produces robot-domain demonstrations for fine-tuning a pretrained vision-language-action (VLA) model. Across four real-world contact-rich tasks, policies fine-tuned solely on TouchBridge-converted human demonstrations achieve a 72.5% average success rate, compared with 77.5% using an equal number of teleoperated robot demonstrations, while human demonstration collection is 7.0x faster. Under the same policy and training setup, Tac-Retarget outperforms DexPilot and UniDex by 25.0 and 42.5 percentage points, respectively.",
+      "authors": [
+        "Haozhe Zhang",
+        "Gu Zhang",
+        "Zirui Zou",
+        "Yuzheng Chen",
+        "Jinlong Wu",
+        "Zixuan Hu",
+        "Jianke Zhang",
+        "Yucheng Hu",
+        "Zhecheng Yuan",
+        "Huazhe Xu"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-10-29T16:06:36Z",
+      "updated": "2026-11-17T15:29:11Z",
+      "categories": [
+        "cs.RO"
+      ],
+      "primary_category": "cs.RO",
+      "arxiv_url": "https://arxiv.org/abs/2610.40349",
+      "html_url": "https://arxiv.org/html/2610.40349",
+      "relevance_score": 16,
+      "huggingface_signal": null,
+      "github_repositories": [
+        {
+          "name": "BaiShuanghao/my_arXiv_daily",
+          "url": "https://github.com/BaiShuanghao/my_arXiv_daily",
+          "description": null,
+          "stars": 222,
+          "updated_at": "2026-11-25T07:31:20Z"
+        },
+        {
+          "name": "DoHeyYeah/arXiV-favor",
+          "url": "https://github.com/DoHeyYeah/arXiV-favor",
+          "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
+          "stars": 1,
+          "updated_at": "2026-11-12T01:27:28Z"
+        },
+        {
+          "name": "Yuxiang-Ma/Awesome-Tactile-Hands",
+          "url": "https://github.com/Yuxiang-Ma/Awesome-Tactile-Hands",
+          "description": "Taxel Atlas: a filterable catalog of whole-hand tactile datasets (human gloves and dexterous robot hands), with a browser viewer",
+          "stars": 0,
+          "updated_at": "2026-11-03T13:59:15Z"
+        },
+        {
+          "name": "Vincentqyw/cv-arxiv-daily",
+          "url": "https://github.com/Vincentqyw/cv-arxiv-daily",
+          "description": "🎓Automatically Update CV Papers Daily using Github Actions",
+          "stars": 1520,
+          "updated_at": "2026-11-27T05:22:12Z"
+        }
+      ],
+      "full_text_source_url": "https://arxiv.org/html/2610.40349",
+      "technical_analysis": "1）研究问题：作者旨在将人类接触丰富灵巧操作演示转为机器人域训练数据，解决人机传感与手部形态差异导致的接触迁移难题；任务为真实机器人接触丰富操作策略学习。\n\n2）方法：TouchBridge为软硬件协同框架。TouchBridge-Cap采集自我中心/腕部RGB、手部运动与指尖触觉；机器人接口对齐腕相机与指尖触觉布局。Tac-Retarget以触觉为条件，联合指尖位姿对齐、接触块中心/活跃触觉单元对齐及触觉激活接触图，保持双手内与跨手接触空间关系；正文称无需物体网格、物体位姿估计或物理仿真。随后做机器人域视觉合成（SAM 2分割、ProPainter修补、渲染机器人网格）和相机锚定动作构造，输出演示以微调预训练VLA（GR00T N1.7）。\n\n3）训练数据与监督：每任务60个人类演示、60个遥操作机器人演示；触觉仅用于重定向，非策略输入。重定向优化含位姿、接触、图与正则项；具体权重、VLA微调损失及训练细节摘录未覆盖。\n\n4）实验：四个真实任务：翻书、拧灯泡、涂酱、抓蛋卷。指标含策略成功率、回放成功率、采集时间、接触误差。正文给出：人类数据微调策略平均成功率72.5%，遥操作数据77.5%；采集快7.0倍（11.7s对81.7s）；较DexPilot、UniDex分别高25.0、42.5个百分点；回放成功率87.5%；接触误差4.667mm，低于DexPilot 6.354mm、UniDex 7.715mm。预训练GR00T N1.7为72.5%，从头训练6.2%。\n\n5）优势与局限：作者声称优势为免物体模型/仿真、支持20 DoF手、无需任务专用机器人演示且采集快。可直接核对证据限于上述四任务、单一Moz1双Wuji Hands平台及60演示设置；更广泛化、失败机制与计算资源摘录未覆盖。复现需TouchBridge-Cap（RealSense D455、腕相机、Manus手套、PaXini触觉、AprilTag）、对应机器人传感接口、GR00T N1.7及四任务数据。",
+      "technical_analysis_status": "ok",
+      "reading_scope": "HTML full text fetched; concise model analysis stored"
+    },
+    {
+      "arxiv_id": "2611.32101",
+      "title": "Ego2Real: Learning Bimanual Dexterous Manipulation from Egocentric Visuo-Tactile Demonstrations",
+      "abstract": "Learning dexterous manipulation from egocentric human demonstrations offers a scalable path toward robot skill acquisition. Vision alone, however, provides limited information about physical contacts and the demonstrator's force intent, leading to ambiguities in interpreting hand-object interactions. Capturing human touch via tactile sensing is therefore crucial for reliable human-to-robot dexterous skill transfer. We present Ego2Real, a framework that leverages egocentric demonstrations and tactile gloves to transfer bimanual dexterous manipulation skills to robotic hands. Ego2Real incorporates tactile supervision at two complementary stages: (1) tactile-guided hand-object interaction reconstruction, which uses measured tactile signals to refine hand poses and contact geometry; and (2) contact-informed reinforcement learning, which translates human contact patterns into robotic contact rewards. By combining refined motion references with physical contact rewards during training, Ego2Real guides anthropomorphic robotic hands to emulate demonstrated contact behaviors while adapting to their own morphology and actuation. Experiments show that incorporating tactile supervision into both reconstruction and policy learning yields higher manipulation success rates, underscoring the importance of enriching egocentric demonstrations with tactile observations to improve their quality and transferability.",
+      "authors": [
+        "Ange Bao",
+        "Haishan Zhang",
+        "Lingzi Xie",
+        "Shuang Li",
+        "Pei Zhao",
+        "Ling Shi",
+        "Bidan Huang"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-11-24T07:21:29Z",
+      "updated": "2026-11-24T07:21:29Z",
+      "categories": [
+        "cs.RO"
+      ],
+      "primary_category": "cs.RO",
+      "arxiv_url": "https://arxiv.org/abs/2611.32101",
+      "html_url": "https://arxiv.org/html/2611.32101",
+      "relevance_score": 15,
+      "huggingface_signal": null,
+      "github_repositories": [
+        {
+          "name": "DoHeyYeah/arXiV-favor",
+          "url": "https://github.com/DoHeyYeah/arXiV-favor",
+          "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
+          "stars": 1,
+          "updated_at": "2026-11-12T01:27:28Z"
+        },
+        {
+          "name": "Yuxiang-Ma/Awesome-Tactile-Hands",
+          "url": "https://github.com/Yuxiang-Ma/Awesome-Tactile-Hands",
+          "description": "Taxel Atlas: a filterable catalog of whole-hand tactile datasets (human gloves and dexterous robot hands), with a browser viewer",
+          "stars": 0,
+          "updated_at": "2026-11-03T13:59:15Z"
+        }
+      ],
+      "full_text_source_url": "https://arxiv.org/html/2611.32101",
+      "technical_analysis": "1) 研究问题与任务设定：作者关注仅凭自我中心视觉演示难以恢复接触与力意图，提出结合RGB-D与触觉手套，将双臂灵巧操作技能迁移至机器人；任务为Bottle Handover与Box Rotation。  \n2) 方法模块与信息流：RGB-D/触觉输入经SAM 3、HaMeR、FoundationPose初始化手—物运动，做度量对齐；触觉读数映射至MANO表面54区域锚点，以接触、法向及持续接触项优化手姿；再以交互网格拉普拉斯坐标重定向至OmniHand 3；最后在仿真中用PPO训练残差策略，奖励含运动跟踪、区域接触状态/力/过早接触惩罚及正则。Actor不含触觉，critic含特权触觉；部署无需机器人侧触觉。  \n3) 训练数据、监督与损失：演示由Intel RealSense D435i（30 Hz）和全掌触觉手套（125 Hz）同步采集；演示规模未披露。重建损失含视觉、正则、接触、法向、持续项；RL奖励细节、权重及接触传感器配置称在补充材料，摘录未覆盖。  \n4) 实验与结果：仿真指标为物体关键点误差(mm)与成功率；基线REGRIND、SPIDER、MANIPTRANS。可核对：Ego2Real为4.73/100%与2.29/100%；REGRIND为3.98/100%与1.99/100%；SPIDER为12.93/0%与11.76/0%；MANIPTRANS为5.70/68.5%与8.04/49.6%。真实世界每任务15次：Ego2Real（触觉细化）12/15、15/15；REGRIND同参考2/15、15/15；无细化均0/15；纯裸手1/15、4/15。Score定义与成功判据摘录未覆盖。  \n5) 优势、局限与复现资源：作者声称两阶段触觉监督互补并提升真实成功率；证据支持细化参考对真实任务关键。局限包括仅两任务、真实Bottle非全成功、视觉遮挡与区域对应/力容忍仍存不确定性。复现需RGB-D相机、触觉手套（型号未披露）、RTX 4090、Tianji Marvin Pro与OmniHand 3、FoundationPose/mjlab等；代码、数据与训练规模未披露。",
+      "technical_analysis_status": "ok",
+      "reading_scope": "HTML full text fetched; concise model analysis stored"
+    },
+    {
+      "arxiv_id": "2611.30813",
+      "title": "HIVE-Bench: Evaluating Patch-Level Visual Representations for Egocentric Robot Manipulation",
+      "abstract": "Pretrained vision is a common start for robot learning, but most comparisons still score one pooled vector from a third-person image. Bimanual policies instead read dense patch tokens from cameras on the robot. We introduce HIVE-Bench: one shared flow-matching policy reads 20 encoders from seven families on 24 egocentric bimanual tasks, across adaptation, task sharing, and sweeps of data, model size, and layer. Keeping the patches matters. Averaging each view to one token removes most of the success, adaptation helps every pair we test, and one shared policy keeps most of the success of separate policies at a fraction of the updates. The same tokens are then scored with statistics, state and object readouts, published vision scores, and an inverse-dynamics readout. That readout of the commanded motion is one of the strongest measurements available before a policy is trained. Recognition, depth, and correspondence do not transfer reliably. Fine-tuning can improve the action readout even when other measurements move the other way, and no statistic is stable enough to replace a rollout before any deployment.",
+      "authors": [
+        "Qiwei Liang",
+        "Zhengtu Liang",
+        "Minghao Lai",
+        "Yikeng Chen",
+        "Yiming Wang",
+        "Boyang Cai",
+        "Yuetong Fang",
+        "Taowen Wang",
+        "Baiqiao Yin",
+        "Tianxing Chen",
+        "Yue Chen",
+        "Jiaming Liang",
+        "Guangyu Chen",
+        "Shaolong Zhu",
+        "Daolin Ma",
+        "Renjing Xu"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-11-23T15:06:14Z",
+      "updated": "2026-11-23T15:06:14Z",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "primary_category": "cs.RO",
+      "arxiv_url": "https://arxiv.org/abs/2611.30813",
+      "html_url": "https://arxiv.org/html/2611.30813",
+      "relevance_score": 15,
+      "huggingface_signal": null,
+      "github_repositories": [
+        {
+          "name": "iszhanjiawei/flow_matching_arxiv_daily",
+          "url": "https://github.com/iszhanjiawei/flow_matching_arxiv_daily",
+          "description": null,
+          "stars": 106,
+          "updated_at": "2026-11-12T06:00:09Z"
+        },
+        {
+          "name": "BaiShuanghao/my_arXiv_daily",
+          "url": "https://github.com/BaiShuanghao/my_arXiv_daily",
+          "description": null,
+          "stars": 222,
+          "updated_at": "2026-11-25T07:31:20Z"
+        },
+        {
+          "name": "DoHeyYeah/arXiV-favor",
+          "url": "https://github.com/DoHeyYeah/arXiV-favor",
+          "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
+          "stars": 1,
+          "updated_at": "2026-11-12T01:27:28Z"
+        }
+      ],
+      "full_text_source_url": "https://arxiv.org/html/2611.30813",
+      "technical_analysis": "1) **问题与任务**：评估机器人操作中预训练视觉编码器的 patch 级（非池化第三人称）表示；在自我中心双臂任务上，以共享策略比较 20 个编码器/7 家族，覆盖冻结/微调、单/多任务、数据/模型/层与池化扫描。作者声称这是首个联合控制与诊断的 patch 级自我中心双臂基准。\n\n2) **方法**：共享 DiT flow-matching 动作头读取各视角全部 patch token（去 class/register），输出 16 步动作块；多任务追加冻结 CLIP 文本特征。诊断含 token 统计、状态/物体读出、已发表视觉分数、IDM（16 步间隔预测标准化命令位移）。信息流：头/腕图像→编码器 patch→交叉注意力→动作块。\n\n3) **数据/监督/损失**：RoboCasa-GR1 12 任务、1000 演示/任务、头视角、29 维动作、执行 12/16；RoboTwin 2.0 12 任务、500 演示/任务、头+双腕、14 维关节、执行 16/16。监督为归一化 16 步动作块的 flow-matching 速度；MT 用语言条件。训练 100k AdamW 步、batch 128、4 GPU；动作头 138.669–156.478M；头 lr 1e-4、编码器微调 1e-5；flow time Beta(1.5,1)、8 噪声、推理 Euler 15/10。完整损失公式与附录实现摘录未覆盖。\n\n4) **实验**：指标为闭环成功率（3 评估种子×50 rollout/任务，12 任务均值）及 Spearman ρ 等；基线含均值池化、冻结/微调、ST/MT 及预测 mean baseline。可核对：池化使 DINOv2 32.28→9.94、DINOv3 31.22→6.44（Casa MT）；微调 10 对均升（Casa ST +1.11–9.44，Twin MT +2.22–26.06）；VGGT-Ω Twin 50.00→76.06；MT 保留 87.7% ST（26.94→23.62）；IDM 与 Twin MT 成功 ρ=-0.75（q=0.020）；ImageNet 探针 ρ=0.07/0.38；跨基准排名 ρ=0.43。\n\n5) **优势/局限/复现**：优势是共享策略与预算下多角度比较，量化 patch 保留和适配收益；作者明确称 IDM 较强但无统计量可替代 rollout，且不识别最佳编码器/不预测适配增益。局限：两套件机器人/视角/动作同时变化，差异为观察性；主比较单种子，成本高（49.7–195.3 TFLOPs/步）。复现需代码库/Benchmark Zoo、20 编码器检查点、两仿真套件、4 GPU 及附录 A 配方；完整资源清单摘录未覆盖。",
+      "technical_analysis_status": "ok",
+      "reading_scope": "HTML full text fetched; concise model analysis stored"
+    },
+    {
+      "arxiv_id": "2608.04196",
+      "title": "SiMDex: Mining Similar Egocentric Videos for Cross-Embodiment Dexterous Manipulation",
+      "abstract": "Recent years have witnessed an explosive trend of scaling ego-centric human videos for robot manipulation, yet it remains unclear which data actually benefits dexterous manipulation. We present SiMDex, a similarity-based data mining framework that casts human data selection for VLA post-training in dexterous manipulation as a recommendation problem. For each robot demonstration, SiMDex runs a recall-ranking-re-ranking cascade over ~32M egocentric human samples: two stages, recall and ranking, select a task-relevant subset in a morphology-agnostic action space, and re-ranking verifies it on pixels, with no change to VLA architecture or training. Against a strong baseline trained with an equal amount of randomly sampled human data, SiMDex uses only ~1.49M mined samples (<5% of the pool) yet improves the overall success rate from 47.7% to 61.7%, showing that selective curation outperforms indiscriminate data mixing.",
+      "authors": [
+        "Nie Lin",
+        "Takehiko Ohkawa",
+        "Sijin Chen",
+        "Ruoshi Wen",
+        "Zhuohang Li",
+        "Liqun Huang",
+        "Zhengming Zhu",
+        "Yiming Bao",
+        "Yunfei Li",
+        "Minjie Cai",
+        "Xiao Ma",
+        "Wei Xu",
+        "Yoichi Sato"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-08-04T19:55:12Z",
+      "updated": "2026-11-20T16:28:54Z",
+      "categories": [
+        "cs.RO",
+        "cs.CV",
+        "cs.LG"
+      ],
+      "primary_category": "cs.RO",
+      "arxiv_url": "https://arxiv.org/abs/2608.04196",
+      "html_url": "https://arxiv.org/html/2608.04196",
+      "relevance_score": 15,
+      "huggingface_signal": null,
+      "github_repositories": [],
+      "full_text_source_url": "https://arxiv.org/html/2608.04196",
+      "technical_analysis": null,
+      "technical_analysis_status": "skipped: daily analysis cap reached (5)",
+      "reading_scope": "HTML full text fetched; model analysis cap reached"
+    },
+    {
+      "arxiv_id": "2410.24035",
+      "title": "A context-adaptive policy framework for robust and reactive robotic manipulation via uncertainty-aware imitation learning",
+      "abstract": "Generating robust and reactive manipulation strategies that can adapt to changing context information is a challenging task in robotics. Over the years, Learning from Demonstration (LfD) has emerged as an intuitive and effective solution for generating reactive policies, particularly by following dynamical-system(DS)-based approaches. However, most state-of-the-art DS-based approaches focus on addressing the robustness limitations, overlooking the modulation of policies in response to the environment. As a result, they tend to be inflexible with respect to parameterization by task-dependent variables. In this work, we build on existing work on policy fusion and uncertainty quantification to propose a context-adaptive policy framework that combines task-parameterized, robust and reactive manipulation. For this, we use LfD to acquire a policy that is conditioned on the robot state and low-dimensional task-dependent parameters reflecting the environment. We combine the learned policy with additional uncertainty-aware policies using a Mixture of Experts (MoE) formulation to improve its out-of-distribution (OOD) robustness and convergence behavior. The approach is evaluated on the LASA handwriting dataset and on a real 7-DoF robot in three scenarios: force-conditioned grasping, manipulation of deformable food items and object-centric grasping.",
+      "authors": [
+        "Tim R. Winter",
+        "Leonard Klüpfel",
+        "Ashok M. Sundaram",
+        "Werner Friedl",
+        "Maximo A. Roa",
+        "Freek Stulp",
+        "João Silvério"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2024-10-31T15:32:32Z",
+      "updated": "2026-11-20T11:11:38Z",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "primary_category": "cs.RO",
+      "arxiv_url": "https://arxiv.org/abs/2410.24035",
+      "html_url": "https://arxiv.org/html/2410.24035",
+      "relevance_score": 15,
+      "huggingface_signal": null,
+      "github_repositories": [],
+      "full_text_source_url": "https://arxiv.org/html/2410.24035",
+      "technical_analysis": null,
+      "technical_analysis_status": "skipped: daily analysis cap reached (5)",
+      "reading_scope": "HTML full text fetched; model analysis cap reached"
+    },
+    {
+      "arxiv_id": "2611.26916",
+      "title": "RoboCap-10k: A Metrically Accurate Egocentric Dataset for Robot Learning",
+      "abstract": "Egocentric video is the most scalable source of manipulation data for robot learning, but its difficulty lies in producing high-quality supervision. Existing large corpora lack metric 3D labels or rely on heterogeneous devices, motion-capture labs, or a headset's built-in real-time tracker, whose accuracy is not reported for the released data. We introduce RoboCap-10k: 10,000 curated hours of unscripted manipulation recorded during workers' paid shifts in 11 countries, spanning 18 task families, 200 task types, and 2,000 tasks. Every hour is captured on one device, the RoboCap, a 250 g hat with six synchronized global-shutter cameras and dual IMUs. Online calibration brings every device below 1 px of epipolar error, visual-inertial SLAM yields gravity-aligned 6-DoF head trajectories, and a multi-view hand tracker yields metric cm-precise hand poses. Each episode is annotated with task and sub-task language captions. Project page: https://robocap10k.com",
+      "authors": [
+        "Kheri Hughes",
+        "Qasim Ali",
+        "Nikash Bhardwaj",
+        "Owen Akhibi",
+        "Niresh Dravin",
+        "Vivek Sharma",
+        "Sam Cho",
+        "Ethan Lee",
+        "Paul Luo",
+        "Sunny Yu",
+        "Jonathan Victor",
+        "Amanda Young",
+        "Michael Cho",
+        "Ademi Adeniji",
+        "Vincent Liu"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-11-20T00:04:54Z",
+      "updated": "2026-11-20T00:04:54Z",
+      "categories": [
+        "cs.RO"
+      ],
+      "primary_category": "cs.RO",
+      "arxiv_url": "https://arxiv.org/abs/2611.26916",
+      "html_url": "https://arxiv.org/html/2611.26916",
+      "relevance_score": 15,
+      "huggingface_signal": null,
+      "github_repositories": [],
+      "full_text_source_url": "https://arxiv.org/html/2611.26916",
+      "technical_analysis": null,
+      "technical_analysis_status": "skipped: daily analysis cap reached (5)",
+      "reading_scope": "HTML full text fetched; model analysis cap reached"
+    },
+    {
+      "arxiv_id": "2611.24836",
+      "title": "DiWALI: Diffusion Policy Learning in World Models via Latent Action Inference from Human and Robot Play",
+      "abstract": "Learning robot manipulation is constrained by the availability of action-labeled robot data, for both imitation and world models. Humans can demonstrate skills in seconds, but their demonstrations lack the required robot actions. We introduce DiWALI, a framework that learns and improves diffusion policies within a world model trained on human and robot play. DiWALI infers latent actions from consecutive frames using an inverse dynamics model, enabling world model training without action labels, and grounds them in robot commands through a decoder trained separately on robot play. Skill policies are trained over latent actions from action-free human demonstrations and improved with reinforcement learning in imagination. On the CALVIN benchmark, DiWALI policies trained solely from human demonstrations substantially outperform baselines trained with robot demonstrations. Incorporating human play into the world model training also yields stronger policies after fine-tuning than using the same amount of robot play alone. Experiments on a physical robot show that skills learned primarily from human demonstrations are further improved in imagination with a world model trained on human and robot play. Together, these results demonstrate that human experience can support both manipulation skill acquisition and subsequent policy improvement, reducing reliance on action-labeled robot data. Videos, dataset and code are available at https://diwali.cs.uni-freiburg.de.",
+      "authors": [
+        "Akshay L Chandra",
+        "Iman Nematollahi",
+        "Lingyue Zhao",
+        "Daria Kulikova",
+        "Angela P. Schoellig",
+        "Fabien Despinoy",
+        "Abhinav Valada"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-11-18T18:03:14Z",
+      "updated": "2026-11-18T18:03:14Z",
+      "categories": [
+        "cs.RO"
+      ],
+      "primary_category": "cs.RO",
+      "arxiv_url": "https://arxiv.org/abs/2611.24836",
+      "html_url": "https://arxiv.org/html/2611.24836",
+      "relevance_score": 15,
+      "huggingface_signal": null,
+      "github_repositories": [
+        {
+          "name": "BaiShuanghao/my_arXiv_daily",
+          "url": "https://github.com/BaiShuanghao/my_arXiv_daily",
+          "description": null,
+          "stars": 222,
+          "updated_at": "2026-11-25T07:31:20Z"
+        },
+        {
+          "name": "DoHeyYeah/arXiV-favor",
+          "url": "https://github.com/DoHeyYeah/arXiV-favor",
+          "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
+          "stars": 1,
+          "updated_at": "2026-11-12T01:27:28Z"
+        },
+        {
+          "name": "rayanrsr/RLCV-Papers",
+          "url": "https://github.com/rayanrsr/RLCV-Papers",
+          "description": "A curated list of papers applying Reinforcement Learning to Computer Vision",
+          "stars": 29,
+          "updated_at": "2026-11-07T09:03:10Z"
+        }
+      ],
+      "full_text_source_url": "https://arxiv.org/html/2611.24836",
+      "technical_analysis": null,
+      "technical_analysis_status": "skipped: daily analysis cap reached (5)",
+      "reading_scope": "HTML full text fetched; model analysis cap reached"
+    },
+    {
+      "arxiv_id": "2611.32786",
+      "title": "Simulator-as-Proxy World Model for Robot Manipulation",
+      "abstract": "Video world models for robots are increasingly conditioned on a simulated or rendered proxy of the scene, on the assumption that the video will show what the proxy shows. Testing this assumption requires a proxy whose state is explicit and can be perturbed. We present SimPWM (Simulator-as-Proxy World Model): given a calibrated camera, it represents, from the first frame alone, the robot by its 3D model and the objects the gripper may touch as 3D points; a rule-based simulator with no trained parameters moves them under the actions, and a video model renders the result. SimPWM returns the realistic video together with the simulated state. We then freeze the simulated objects while the arm moves as recorded and check whether the video still shows the object lifted. On DROID episodes from unseen setups, the answer differs for the arm and for the objects. With each of three base video models, the arm follows the proxy (robot IoU 0.75-0.78, against at most 0.69 for end-to-end models); rendering the robot alone already gives this. What the simulated objects add is the object state: against a robot-only proxy, they cut missed pick-ups from 54% to 38%, and the video follows them only with some base models: on rigid objects, freezing them lowers the lift rate of MiniMax-H3, fine-tuned on episodes whose simulation agrees with the real video, from 42% to 10%, but that of LTX-2.3, trained on the same episodes, only from 57% to 49%, as if it inferred the grasp from the arm motion; more than half of the remaining lifts of MiniMax-H3 are of cloth and rope, which the simulator carries rigidly. With any base model, the simulated state records what the simulation did; under perturbed actions, a video that disagrees with it reveals that the video ignores the simulated state.",
+      "authors": [
+        "Tingting Liao",
+        "Mingjia Huo",
+        "Hao Li",
+        "Zhengzhong Liu",
+        "Eric P. Xing",
+        "Guangyi Liu"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-11-24T15:14:07Z",
+      "updated": "2026-11-24T15:14:07Z",
+      "categories": [
+        "cs.RO",
+        "cs.CV",
+        "cs.LG"
+      ],
+      "primary_category": "cs.RO",
+      "arxiv_url": "https://arxiv.org/abs/2611.32786",
+      "html_url": "https://arxiv.org/html/2611.32786",
+      "relevance_score": 14,
+      "huggingface_signal": null,
+      "github_repositories": [
+        {
+          "name": "BaiShuanghao/my_arXiv_daily",
+          "url": "https://github.com/BaiShuanghao/my_arXiv_daily",
+          "description": null,
+          "stars": 222,
+          "updated_at": "2026-11-25T07:31:20Z"
+        },
+        {
+          "name": "DoHeyYeah/arXiV-favor",
+          "url": "https://github.com/DoHeyYeah/arXiV-favor",
+          "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
+          "stars": 1,
+          "updated_at": "2026-11-12T01:27:28Z"
+        },
+        {
+          "name": "TingtingLiao/SimPWM",
+          "url": "https://github.com/TingtingLiao/SimPWM",
+          "description": null,
+          "stars": 6,
+          "updated_at": "2026-11-27T06:10:24Z"
+        }
+      ],
+      "full_text_source_url": "https://arxiv.org/html/2611.32786",
+      "technical_analysis": null,
+      "technical_analysis_status": "skipped: daily analysis cap reached (5)",
+      "reading_scope": "HTML full text fetched; model analysis cap reached"
+    },
+    {
+      "arxiv_id": "2611.32162",
+      "title": "Reading Geometric Anchors: Viewpoint Generalization in Imitation Learning for Robotic Manipulation with RGB-Only Deployment",
+      "abstract": "Moving the camera changes where objects appear in an image, challenging RGB-based imitation learning. A common strategy pairs synthesized views with the same demonstrated action, but ignores supporting physical correspondence across views. By predicting depth with camera calibrations, 3D policies may handle it yet suffer the issue of varied observed point sets. To address these limitations, we propose ReGeoAnch, a geometry-anchored imitation learning framework for viewpoint generalization. Specifically, we build global anchors in the robot base frame and local anchors in the gripper frame, providing shared physical references across viewpoints. Furthermore, Decoupled Appearance-Guided Geometric Readout uses Point-to-Anchor Aggregation (PAA) to obtain comparable and stable geometry around anchors beyond pointwise correspondence. A controllable and decoupled information flow, Anchor-to-Policy Readout (APR), leverages complementary visual and geometric information and supports viewpoint generalization: view-dependent appearances are queried by view-invariant robot state to select task-relevant anchors, with geometric values alone to form the final readout. We further introduce Cross-View Readout Consistency to align the directions of policy readouts from paired source and synthesized target views. Experiments on 12 manipulation tasks across MetaWorld and ManiSkill3 demonstrate improved viewpoint generalization over baseline policies.",
+      "authors": [
+        "Chengyu Tao",
+        "Chunxi Huang"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-11-24T08:14:53Z",
+      "updated": "2026-11-24T08:14:53Z",
+      "categories": [
+        "cs.RO"
+      ],
+      "primary_category": "cs.RO",
+      "arxiv_url": "https://arxiv.org/abs/2611.32162",
+      "html_url": "https://arxiv.org/html/2611.32162",
+      "relevance_score": 14,
+      "huggingface_signal": null,
+      "github_repositories": [
+        {
+          "name": "BaiShuanghao/my_arXiv_daily",
+          "url": "https://github.com/BaiShuanghao/my_arXiv_daily",
+          "description": null,
+          "stars": 222,
+          "updated_at": "2026-11-25T07:31:20Z"
+        }
+      ]
+    },
+    {
+      "arxiv_id": "2610.25600",
+      "title": "Vector-Quantized World Model: Latent Feedback Motion Planning for Robot Manipulation",
+      "abstract": "Visual world models have shown strong potential for robot planning, yet long-horizon manipulation remains challenging due to compounding prediction errors, large search complexity, and latent plans that the low-level controller cannot reliably reach. In this work, we introduce Vector-Quantized World Model (VQ-WM), a latent feedback motion planning framework that integrates discrete long-horizon search with continuous visual feedback control: a discrete latent predictor models transitions between vector-quantized latent states, allowing the planner to look far ahead and find a shortest path to the goal through discrete search and a continuous learned controller sequentially reaches the planned states through visual feedback, correcting deviations to mitigate compounding errors. Whereas most vector quantization uses Euclidean distance, we use a novel estimator of the first-passage-time as a quasi-metric, which aligns the planning abstraction with the controller's capabilities. We evaluate on the physical robot manipulation of the Tower of Hanoi puzzle: whereas existing state-of-the-art foundation models (VLAs, WAMs) only succeed when the solution trace in their training dataset, our method achieves 100\\% success rate with only short-play data, demonstrate its ability to compose long-horizon solutions beyond the short demonstrated trajectories and execute them reliably. Our solution also outperforms strongest world-models by 13.3--85.3 percentage points on simulation benchmarks spanning manipulation and locomotion, demonstrating consistent progress and new capabilities.",
+      "authors": [
+        "Xuezhou Xu",
+        "Chung-Pang Wang",
+        "Zhenzhen Li",
+        "Benjamin Riviere"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-10-19T00:06:44Z",
+      "updated": "2026-11-23T03:47:03Z",
+      "categories": [
+        "cs.RO"
+      ],
+      "primary_category": "cs.RO",
+      "arxiv_url": "https://arxiv.org/abs/2610.25600",
+      "html_url": "https://arxiv.org/html/2610.25600",
+      "relevance_score": 14,
+      "huggingface_signal": null,
+      "github_repositories": [
+        {
+          "name": "Blake-Jiang/ad-arxiv-daily",
+          "url": "https://github.com/Blake-Jiang/ad-arxiv-daily",
+          "description": "Daily tracking and organizing the latest arXiv papers in the field of autonomous driving (AD)",
+          "stars": 58,
+          "updated_at": "2026-11-12T13:30:33Z"
+        }
+      ]
+    },
+    {
+      "arxiv_id": "2611.29208",
+      "title": "Force2Act: A Force-Aware Visuomotor Policy for Generalizable Compliant Robot Manipulation",
+      "abstract": "Contact-rich manipulation requires a robot to regulate the force it applies, not only where it moves. Existing force-aware policies learn this force from demonstrations and therefore reproduce the force levels they were trained on, which fails once the interaction demands more force than any demonstration. We present Force2Act, a hybrid force-position policy built on two complementary mechanisms. A global force policy plans the motion and the interaction force once per action chunk, with force represented relative to the measured interaction, so that the planned force scales with the load. Between planning steps, a reactive compliance policy, termed Mixture of Force Experts, identifies at every control step the force expert that governs the interaction and regulates the force through it, so that the contact holds when it changes within a chunk. We further introduce Force2Act-Bench, a simulation benchmark of five contact-rich tasks that gives the community a common and repeatable way to test force-aware policies and measure how well they regulate the interaction force. Force2Act achieves an overall success rate of 93.8%, compared with 77.0% for the strongest baseline, and its reactive regulation reduces the failures on block pivoting from 30 to 10 of 150 trials. On a real robot, Force2Act reaches an average success rate of 94.2% over four tasks, against at most 27.5% for the baselines.",
+      "authors": [
+        "Keerthi Vasan Murugan",
+        "Fangguo Zhao",
+        "Jiafei Duan"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-11-22T04:13:01Z",
+      "updated": "2026-11-22T04:13:01Z",
+      "categories": [
+        "cs.RO"
+      ],
+      "primary_category": "cs.RO",
+      "arxiv_url": "https://arxiv.org/abs/2611.29208",
+      "html_url": "https://arxiv.org/html/2611.29208",
+      "relevance_score": 14,
+      "huggingface_signal": null,
+      "github_repositories": [
+        {
+          "name": "MAGICLAB-NUS/Force2Act",
+          "url": "https://github.com/MAGICLAB-NUS/Force2Act",
+          "description": "Force2Act: A Force-Aware Visuomotor Policy for Generalizable Compliant Robot Manipulation",
+          "stars": 12,
+          "updated_at": "2026-11-27T04:31:04Z"
+        }
+      ]
+    },
+    {
+      "arxiv_id": "2611.34741",
+      "title": "ELMO: Emergent Representations In Imitation Learning Via Dynamic Hierarchical Action Chunking",
+      "abstract": "Robot trajectories naturally decompose into variable-length phases with distinct semantic intents, such as reaching, grasping, and lifting. However, training policies to minimize MSE treats all actions as equal, obscuring their semantic structure. While latent action models attempt to create a structured prediction target by compressing action chunks into latent representations, existing approaches rely on two-stage training and context-blind decoders. Consequently, their representations are context-agnostic motion codes (e.g., \"move down\") which fail to capture behavioural intent (e.g., \"pick up the block\"). To overcome these bottlenecks, we introduce the Emergent Latent-action MOdel (ELMO), an end-to-end framework that encodes robot trajectories as grounded semantic codes -- representations that ground task-level behavioural intent in the current environment. ELMO jointly trains a VLA planner and an observation-conditioned decoder over dynamically chunked trajectories, learning a semantically grounded action space without separate pretraining. Across standard benchmarks, ELMO outperforms comparable prior methods by 9.6 percentage points on LIBERO-Plus and by 0.75 in average task length on CALVIN. Furthermore, on Blocks -- our shortcut-free simulation and real-world generalization benchmark -- ELMO reaches a 38.6% success rate while all baselines remain below 5%, demonstrating its ability to capture the semantic structure of demonstrations. Website: https://uoft-isl.github.io/elmo.github.io/",
+      "authors": [
+        "Jasper Gerigk",
+        "Yang Xu",
+        "Nicholas Rhinehart",
+        "Igor Gilitschenski"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-11-25T17:19:06Z",
+      "updated": "2026-11-25T17:19:06Z",
+      "categories": [
+        "cs.RO"
+      ],
+      "primary_category": "cs.RO",
+      "arxiv_url": "https://arxiv.org/abs/2611.34741",
+      "html_url": "https://arxiv.org/html/2611.34741",
+      "relevance_score": 13,
+      "huggingface_signal": null,
+      "github_repositories": [
+        {
+          "name": "BaiShuanghao/my_arXiv_daily",
+          "url": "https://github.com/BaiShuanghao/my_arXiv_daily",
+          "description": null,
+          "stars": 222,
+          "updated_at": "2026-11-25T07:31:20Z"
+        }
+      ]
+    },
+    {
+      "arxiv_id": "2605.29416",
+      "title": "3DVLA: Enhancing Vision-Language-Action Models via 3D Spatial and Instance Understanding",
+      "abstract": "Vision-Language-Action models have achieved remarkable progress in robotic manipulation, yet they suffer from a critical limitation: a lack of 3D scene understanding. This deficiency manifests as three intertwined challenges: weak extraction of 3D spatial positions without enforcing multi-view consistency, inadequate 3D instance understanding, and fragile reasoning under occlusion. Although mature 3D perception methods exist, their direct integration into VLA pipelines is hindered by architectural incompatibility and by heavy reliance on costly instance-level annotations. To address these challenges, we propose 3DVLA, a framework compatible with existing VLA models, which introduces 3D understanding without requiring extra manual labels or discarding VLM priors. Specifically, 3DVLA tackles the three challenges through: (1) pervasive 3D feature encoding with explicit multi-view consistency constraints across all modalities and a Spatially-Conditioned Geometry Aggregation method, (2) an object-centric 3D instance module with high-level instance tokens for 3D instance awareness, and (3) a masked self-supervised 3D encoding branch that retains its predictor for visual token completion to handle occlusions. We integrate 3DVLA with multiple VLA baselines and evaluate on LIBERO-Plus, RoboTwin 2.0, and real-world settings. Results show consistent and significant gains in manipulation performance, validating both the effectiveness and plug-and-play compatibility of our approach.",
+      "authors": [
+        "Zhongyu Xia",
+        "Yousen Tang",
+        "Bingqing Wei",
+        "Yongtao Wang"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-05-28T06:07:57Z",
+      "updated": "2026-11-21T05:34:20Z",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "primary_category": "cs.RO",
+      "arxiv_url": "https://arxiv.org/abs/2605.29416",
+      "html_url": "https://arxiv.org/html/2605.29416",
+      "relevance_score": 13,
+      "huggingface_signal": null,
+      "github_repositories": []
+    },
+    {
+      "arxiv_id": "2611.17751",
+      "title": "When Does Cross-View Consistency Matter in Multi-View Appearance Augmentation? A Controlled Study for Visuomotor Policies",
+      "abstract": "Multi-view visual augmentation often seeks consistency across cameras, but it is unclear which forms of consistency matter for downstream control. We use simulation-state replay to manipulate cross-view coupling while preserving the per-camera perturbation distributions, physical trajectories, and action labels. Across seven LIBERO manipulation tasks, marginal-matched changes in global appearance, ghost injection, and target color have small average costs for a late-fusion Diffusion Policy: point estimates are near zero or negative, and the largest upper endpoint of the 90% posterior credible intervals is 2.55 percentage points. In contrast, geometrically anti-coupled observations reduce success by 3.30 percentage points relative to coupled observations (90% CrI [0.64, 6.28]), with displacement magnitude, direction marginals, and the number of affected views matched. Camera interventions reveal substantial dependence on wrist-view geometry, while feature analysis shows appearance sensitivity patterns associated with the factors randomized during training. ACT shows a higher target-color cost estimate than DP, with uncertainty that includes zero and sensitivity to task composition. Within the tested tasks and policy configurations, these findings motivate selective consistency constraints: appearance coupling can sometimes be relaxed, whereas task-relevant geometry and cross-view spatial correspondence warrant protection.",
+      "authors": [
+        "Zixuan Jiang"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-11-13T05:10:00Z",
+      "updated": "2026-11-19T02:11:12Z",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "primary_category": "cs.RO",
+      "arxiv_url": "https://arxiv.org/abs/2611.17751",
+      "html_url": "https://arxiv.org/html/2611.17751",
+      "relevance_score": 13,
+      "huggingface_signal": null
+    },
+    {
+      "arxiv_id": "2611.24940",
+      "title": "$Z$-sight: Unifying Vision-Language-Action and Latent World Modeling",
+      "abstract": "We introduce $Z$-sight, a unified robot foundation model that couples vision-language-action (VLA) and generative latent world modeling. Video-based world action models (WAMs) show the value of joint future-and-action generation for control, yet inherit the heavy cost of video generators. Recent latent-space policies avoid pixel generation, yet typically align intermediate features or rely on frozen target encoders, decoupling future prediction from the VLM's native feature space. $Z$-sight instead predicts the future directly in the visual token space in which its VLM perceives the present. Coupling a foresight expert and a continuous action expert with the VLM in a mixture-of-transformers, $Z$-sight jointly denoises future spatial tokens and actions at inference without pixel reconstruction or external encoders. Trained on human video and robot trajectories, $Z$-sight achieves 81.9% success on SIMPLE (+9.6 points over the strongest baseline) and 73.3% across six Unitree G1 tasks (+20.0 points) at 110 ms per chunk, while remaining competitive on tabletop benchmarks.",
+      "authors": [
+        "Junjie Ye",
+        "Yiqi Zhao",
+        "Muchen Xu",
+        "Celina Shiyu Wang",
+        "Hao Dong",
+        "Ruohai Ge",
+        "Rong Xue",
+        "Benjamin J Kolligs",
+        "Aditya Dutt",
+        "Sasanka Nagavalli",
+        "Nassim A. Samad",
+        "Gaurav S. Sukhatme",
+        "Jyotirmoy V. Deshmukh",
+        "Yue Wang",
+        "Yuliang Guo"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-11-18T18:59:38Z",
+      "updated": "2026-11-18T18:59:38Z",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "primary_category": "cs.RO",
+      "arxiv_url": "https://arxiv.org/abs/2611.24940",
+      "html_url": "https://arxiv.org/html/2611.24940",
+      "relevance_score": 13,
+      "huggingface_signal": null
+    },
+    {
+      "arxiv_id": "2610.29866",
+      "title": "GeoMem-VLA: Internalizing 3D Scene Understanding into Temporal Memory for Vision-Language-Action Models",
+      "abstract": "Vision-Language-Action (VLA) models typically predict actions from current 2D observations, whereas existing 3D policies infer geometry per step without retaining it across an episode. Action generation under occlusion and across multiple stages requires a compact spatial abstraction that persists over time without reconstructing a full 3D scene at each step. Based on this insight, we introduce GeoMem-VLA, a framework that internalizes explicit 3D scene and motion supervision into learnable latent GeoPlantokens, leaving the vision-language backbone's native visual embeddings unaligned. During training, a frozen geometry teacher and demonstration trajectories supervise these tokens via an auxiliary flow-matching head over current scene point maps and future end-effector tracks. Across steps, the policy stores observation and GeoPlan representations in separate memory banks, merges similar adjacent states into event memories, and fuses retrieved history with current features to predict actions. At inference, the 3D teacher and auxiliary head are removed, and action generation relies solely on the latent GeoPlan tokens and episode memory without explicit scene reconstruction. GeoMem-VLA achieves average success rates of 98.9% on LIBERO, 91.10% and 91.24% on RoboTwin 2.0 Clean and Randomized settings, and 78.0% across five real-world manipulation tasks.",
+      "authors": [
+        "Qinfan Zhang",
+        "Yifan Luo",
+        "Haoyuan Shi",
+        "Guanlin Liu",
+        "Han Dong",
+        "Haozhe Shan",
+        "Yong Dai",
+        "Xiancong Ren",
+        "Xiaozhu Ju"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-10-21T15:23:18Z",
+      "updated": "2026-11-25T14:46:09Z",
+      "categories": [
+        "cs.CV"
+      ],
+      "primary_category": "cs.CV",
+      "arxiv_url": "https://arxiv.org/abs/2610.29866",
+      "html_url": "https://arxiv.org/html/2610.29866",
+      "relevance_score": 12,
+      "huggingface_signal": null
+    },
+    {
+      "arxiv_id": "2611.31689",
+      "title": "GeoMVGen: Joint Appearance-Geometry Modeling for Multi-View Video Generation in Robotic Manipulation",
+      "abstract": "Robotic manipulation requires predicting how robot-object interactions evolve over time, encompassing both visual appearance and scene geometry. In multi-camera settings, such predictions need to capture the evolving 3D scene consistently across viewpoints, while supporting controllable generation under different robot actions and camera configurations. Existing video generation models provide strong priors for visual appearance and motion but typically lack explicit geometric modeling. Meanwhile, recent advances in geometry-aware and multi-view generation have explored joint appearance-geometry modeling and cross-view consistency, yet generating temporally coherent appearance and geometry across multiple viewpoints under robotic manipulation conditions remains challenging. In this work, we propose GeoMVGen, a framework for joint multi-view RGB and pointmap video generation in robotic manipulation. Built on a video diffusion transformer, our framework employs modality-specific adaptation modules to capture the distinct characteristics of appearance and geometry, while using cross-modal residual connections to facilitate information exchange between the two modalities. To establish geometric correspondences across viewpoints, we further introduce a cross-view projection mechanism with complementary geometric supervisions, combining pointmap consistency with geometry foundation model-guided feature alignment. These designs enable controllable generation of temporally evolving multi-view observations with coherent appearance and geometrically consistent scene structures. Extensive experiments on 4D video generation dataset comprising simulated and real-world robotic manipulation scenarios demonstrate that GeoMVGen outperforms state-of-the-art methods in video quality, geometric accuracy, and cross-view consistency.",
+      "authors": [
+        "Qiaoqiao Jia",
+        "Guile Wu",
+        "Dongfeng Bai"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-11-23T23:23:51Z",
+      "updated": "2026-11-23T23:23:51Z",
+      "categories": [
+        "cs.CV"
+      ],
+      "primary_category": "cs.CV",
+      "arxiv_url": "https://arxiv.org/abs/2611.31689",
+      "html_url": "https://arxiv.org/html/2611.31689",
+      "relevance_score": 12,
+      "huggingface_signal": null
+    },
+    {
+      "arxiv_id": "2610.14335",
+      "title": "PILOT: Guiding Long-Horizon World-Model Planning for Robot Manipulation with Imagined Subgoals and Policy Priors",
+      "abstract": "Latent world-model planning has shown promising results in goal-conditioned robotic manipulation, but remains challenging for long-horizon planning due to limited temporal guidance and inefficient action search. A distant goal image offers little guidance for preparatory actions, capturing intermediate subgoal images by hand is impractical, and uninformed sampling makes action search inefficient. We propose PILOT (Policy-Initialized Local Optimization with Temporal subgoals), which brings two foundation models into latent world-model planning: a video model turns a language instruction into visual subgoals, and a vision-language-action policy initializes the cross-entropy method (CEM). CEM refines action sequences toward each subgoal with an action-conditioned world model, and no goal image is needed at test time. With both models fine-tuned on 40 demonstrations, PILOT achieves 68.8% success on four real UR5e tasks, compared with 55.0% without policy initialization, 13.8% for policy-only execution, and 0.0% for direct final-goal planning. In simulation, PILOT exceeds direct execution of the same policy by 30 percentage points on long Push-T tasks and by 22 percentage points on LIBERO-10. Subgoals and the policy prior are complementary: better subgoals and stronger priors each raise success, and even a weak policy that succeeds alone on only 3.3% of medium Push-T tasks is an effective prior.",
+      "authors": [
+        "Yang Liu",
+        "Hanchen Cui",
+        "Karthik Desingh"
+      ],
+      "affiliations_from_arxiv_metadata": [],
+      "published": "2026-10-09T21:21:18Z",
+      "updated": "2026-11-19T03:47:21Z",
+      "categories": [
+        "cs.RO"
+      ],
+      "primary_category": "cs.RO",
+      "arxiv_url": "https://arxiv.org/abs/2610.14335",
+      "html_url": "https://arxiv.org/html/2610.14335",
+      "relevance_score": 12,
+      "huggingface_signal": null
+    }
+  ]
+}
