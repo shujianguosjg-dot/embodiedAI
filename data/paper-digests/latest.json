@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "report_date_local": "2026-11-27",
-  "generated_at_local": "2026-11-27T16:58:55.154811+08:00",
+  "report_date_local": "2026-11-28",
+  "generated_at_local": "2026-11-28T16:20:58.086719+08:00",
   "timezone": "Asia/Taipei",
   "search_window_days": 14,
   "preferred_window_hours": 72,
@@ -46,7 +46,7 @@
   "counts": {
     "arxiv_records_after_window_filter": 2717,
     "relevant_candidates": 725,
-    "candidates_updated_in_last_72h": 222
+    "candidates_updated_in_last_72h": 82
   },
   "selection_note": "This is an evidence bundle, not a quality ranking. Select 1-5 papers only after checking scientific contribution, evidence, author affiliations, and community signals. Do not treat popularity or institutional prestige as proof of quality.",
   "candidates": [
@@ -74,13 +74,6 @@
       "huggingface_signal": null,
       "github_repositories": [
         {
-          "name": "Wutronics/vla-paper-watch",
-          "url": "https://github.com/Wutronics/vla-paper-watch",
-          "description": null,
-          "stars": 0,
-          "updated_at": "2026-11-12T08:06:06Z"
-        },
-        {
           "name": "BaiShuanghao/my_arXiv_daily",
           "url": "https://github.com/BaiShuanghao/my_arXiv_daily",
           "description": null,
@@ -93,6 +86,13 @@
           "description": "Daily arXiv papers for 3D Vision and Dexterous Manipulation. Human edited.",
           "stars": 1,
           "updated_at": "2026-11-12T01:27:28Z"
+        },
+        {
+          "name": "Wutronics/vla-paper-watch",
+          "url": "https://github.com/Wutronics/vla-paper-watch",
+          "description": null,
+          "stars": 0,
+          "updated_at": "2026-11-12T08:06:06Z"
         },
         {
           "name": "amani-td/World-models",
@@ -110,7 +110,7 @@
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.30907",
-      "technical_analysis": "1）研究问题与任务设定：面向跨机器人形态的零样本操作，学习无需动作标签的统一3D潜在动作世界模型；用重定向人类操作演示的点云/粒子观测学习连续动作表示，并在潜在动作空间做MPC。作者声称可迁移至未见形态与夹爪，并支持真实灵巧手零样本操作。\n\n2）方法模块与信息流：共享PTv3场景编码；逆动力学由相邻点云状态推断32维潜在动作 \\(z_t\\in\\mathbb{R}^{4\\times8}\\)；前向动力学以初始场景和 \\(K=5\\) 个潜在动作，经因果分块解码预测各点位移场；跨形态对比损失对齐对应转移。部署时用CEM优化潜在动作序列，以几何代价评估预测粒子轨迹；再由已知几何/运动学恢复机器人目标（夹爪质心/位姿；灵巧手Kabsch对齐加非线性IK），无需形态特定latent-to-action解码器。\n\n3）训练数据、监督与损失：正文使用H2O双人操作子集，含MANO手网格、物体网格与跟踪位姿，重定向至8种机器人手；每实体1024粒子。监督信号为粒子位移，非动作标签。损失为运动加权Huber位移损失加对比损失，\\(\\lambda_{\\rm con}=0.15\\)；采样间隔0.2 s、预测5步约1 s。训练硬件、时长及完整超参未披露/摘录未覆盖。\n\n4）实验与结果：几何指标为Mover EPE（mm），5步、移动粒子阈值>5 mm。表1中正确潜在动作手/物体/静态场景EPE为7.94/13.59/0.87，零条件为53.17/43.43/0.68；跨形态cross-decoding图5未给具体数值，但称低于49.5 mm无运动基线；形态线性探针26.6%，PTv3特征85.3%（随机9.1%）。RoboSuite零样本夹爪4任务各10次：50%/80%/100%/100%；PointWorld两共享任务均100%。RoboCasa消融各20次：Latent-IK为100%/90%/60%，Latent-Decoder为100%/85%/80%。DexWM基准各50回合：90%/92%/60% 对 72%/58%/28%，并称候选评估256对5120、1对8张H100。真实世界86%（50次、5任务）仅为摘要声称，正文摘录未覆盖细节。\n\n5）优势、局限与复现：优势是统一潜在动作、免动作标签/解码器、跨形态与低规划预算；局限是依赖重定向数据与已知几何/运动学、预测时域仅1 s，部分关键结果仅图示或摘要声称。复现需H2O、重定向流程、PTv3/Utonia代码、RoboSuite/RoboCasa，以及项目页源码；训练与真实部署资源未完整披露。",
+      "technical_analysis": "1) **研究问题与任务设定**：针对动作标注昂贵、世界模型受限于特定形态的问题，学习无动作标签、跨形态的统一3D潜在动作表示，用于点云场景未来预测与零样本操作规划。任务是以初始粒子场景和潜在动作序列为条件，预测未来粒子位移，并在潜在空间做MPC。\n\n2) **方法模块与信息流**：共享PTv3编码点云；逆动力学模型由相邻场景推断\\(z\\in\\mathbb{R}^{4\\times8}\\)的32维潜在动作；前向动力学模型以初始场景和\\(K=5\\)个潜在动作因果分horizon预测逐点位移。对比损失对齐人—机器人对应转移。部署时用CEM在潜在空间最小化几何代价，再依已知几何/运动学恢复夹爪目标或灵巧手姿态与关节目标，无需形态特定动作解码器。\n\n3) **训练数据与监督**：正文称使用H2O双手机器人操作子集，含MANO手、物体网格与位姿，重定向至8种机器人手，每实体采样1024粒子；损失为运动加权Huber位移损失加权重0.15的对比损失。优化器、训练轮数、学习率等摘录未覆盖。\n\n4) **实验与结果**：H2O验证集指标为Mover EPE(mm)；正确latent下手/物为7.94/13.59mm，优于零、打乱、固定条件。RoboSuite零样本夹爪任务成功率50%、80%、100%、100%（每任务10次）。RoboCasa的Reach/Grasp/Place为90%/92%/60%，对比DexWM报告72%/58%/28%；规划消融每任务20次。真实世界86%、50次试验仅见摘要与引言声称，5.7节摘录未覆盖。\n\n5) **优势、局限与复现**：优势是无动作标签、潜在空间规划、跨形态迁移及较低规划预算（正文称256候选对5,120，单H100对八H100）。局限是依赖H2O与重定向/几何重建，真实世界证据摘录不足；完整训练超参与资源未披露，源码仅称项目页可用。",
       "technical_analysis_status": "ok",
       "reading_scope": "HTML full text fetched; concise model analysis stored"
     },
@@ -161,7 +161,7 @@
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.24585",
-      "technical_analysis": "1）研究问题与任务设定：作者指出，第一视角人类记录缺少机器人关节位置与执行器命令，只能经重定向得到末端执行器（EEF）动作；据此提出两个问题：人类数据应如何监督策略，以及多指灵巧机器人部署时如何读出动作。任务是双机械臂+22-DoF手的灵巧操作，既评估机器人示教微调，也评估零任务机器人数据的human-to-robot迁移。\n\n2）方法：SHAPE以Qwen3-VL-4B为backbone，将EEF chunk的离散FAST token作为辅助任务直接监督backbone；共享0.6B flow-matching专家并行输出EEF流与关节流，注意力掩码隔离两流并阻止专家读取FAST token。损失含EEF流FM、带缺失掩码的关节流FM、FAST、视频与文本损失（λF=0.1、λV=1、λT=0.2）。部署时省略辅助头，任选一流执行；EEF流经IK转关节目标。\n\n3）训练数据与监督：预训练用2.8k小时人类数据（320任务、73.1k episodes，仅EEF+FAST）和228小时机器人遥操作（105任务、10.5k episodes，EEF/关节/FAST），按1:1采样；人类样本无关节标签，关节损失被掩码。摘录未覆盖完整超参数与算力。\n\n4）实验：真实机器人六任务，每任务20 trials，基线π0.5、GR00T N1.7；表2显示SHAPE关节流六任务均值0.80，π0.5为0.63，GR00T为0.51；严格完成76/120对61/120、51/120。三任务H2R无机器人示教，表3 SHAPE EEF流21/60（35%），w/o FAST为7/60，w/o human为4/60，w/o both为0/60；关节流0/60。仿真RoboCasa GR-1 24任务，表4 SHAPE 72.2%，π0.5 64.8%，GR00T 62.6%。作者声称离散监督驱动backbone梯度并形成动作相关表征；摘录给出探针与最近邻统计作支持。\n\n5）优势、局限与复现：优势是离散监督与人类预训练互补、双流可灵活读出；局限包括毫米级连接器重插仍困难、H2R多在抓取失败、关节流H2R为0/240，且仅机器人数据加FAST在留出机器人任务上平均增1.1 mm误差。复现需Qwen3-VL-4B、0.6B专家、Wan视频头、FAST 1,024词表及上述数据/平台；计算资源与完整实现细节摘录未覆盖。",
+      "technical_analysis": "仅依据给定材料分析：\n\n1）研究问题与任务：利用廉价的自我中心人类录像预训练/直接学习双手灵巧操作，解决人类数据仅有重定向EEF动作、缺少机器人关节与执行器监督的问题；并决定部署时用关节流还是EEF流读出。\n\n2）方法：SHAPE为VLA。Qwen3-VL-4B骨干预测EEF chunk的离散FAST token作辅助任务；共享0.6B flow-matching专家并行输出55维EEF流和65维关节流，注意掩码隔离两流；部署可任选一流，EEF流经IK转关节。人类样本仅监督EEF流，关节流通过共享骨干/专家间接获益；FAST token不供专家读取以防抄捷径。\n\n3）训练数据与损失：预训练人类2,811小时、73.1k episodes、320任务；机器人遥操作228小时、10.5k episodes、105任务，1:1采样。损失为EEF FM + 掩码关节FM + λF FAST + λV视频 + λT子任务文本，λF=0.1、λV=1、λT=0.2；人类无关节标签，mJ屏蔽。人类-only微调时禁用FAST。算力、完整超参与代码复现细节摘录未覆盖。\n\n4）实验：真实双臂7-DoF臂+22-DoF手；六任务各20 trials，SHAPE关节流0.80，π0.5为0.63，GR00T N1.7为0.51；消融w/o human为0.64。三任务H2R零机器人数据：SHAPE EEF流21/60（35%），人类无FAST为7/60，机器人-only含FAST为4/60；关节流0/60。仿真RoboCasa 24任务：72.2%对π0.5 64.8%、GR00T 62.6%。另有离线3D误差与线性探针R²等证据。\n\n5）优势与局限：作者声称离散监督驱动骨干梯度、改善跨域动作表示，双流兼顾精细关节控制与人类迁移；直接证据支持上述分数和探针。局限包括毫米级连接器重插仍难、抓取失败、IK对22-DoF手欠约束、重定向关节姿态OOD；平台与数据规模特定。复现需大规模人类/机器人数据、双机械臂硬件、Qwen3-VL-4B与0.6B专家；具体资源未披露。",
       "technical_analysis_status": "ok",
       "reading_scope": "HTML full text fetched; concise model analysis stored"
     },
@@ -223,7 +223,7 @@
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2610.40349",
-      "technical_analysis": "1）研究问题：作者旨在将人类接触丰富灵巧操作演示转为机器人域训练数据，解决人机传感与手部形态差异导致的接触迁移难题；任务为真实机器人接触丰富操作策略学习。\n\n2）方法：TouchBridge为软硬件协同框架。TouchBridge-Cap采集自我中心/腕部RGB、手部运动与指尖触觉；机器人接口对齐腕相机与指尖触觉布局。Tac-Retarget以触觉为条件，联合指尖位姿对齐、接触块中心/活跃触觉单元对齐及触觉激活接触图，保持双手内与跨手接触空间关系；正文称无需物体网格、物体位姿估计或物理仿真。随后做机器人域视觉合成（SAM 2分割、ProPainter修补、渲染机器人网格）和相机锚定动作构造，输出演示以微调预训练VLA（GR00T N1.7）。\n\n3）训练数据与监督：每任务60个人类演示、60个遥操作机器人演示；触觉仅用于重定向，非策略输入。重定向优化含位姿、接触、图与正则项；具体权重、VLA微调损失及训练细节摘录未覆盖。\n\n4）实验：四个真实任务：翻书、拧灯泡、涂酱、抓蛋卷。指标含策略成功率、回放成功率、采集时间、接触误差。正文给出：人类数据微调策略平均成功率72.5%，遥操作数据77.5%；采集快7.0倍（11.7s对81.7s）；较DexPilot、UniDex分别高25.0、42.5个百分点；回放成功率87.5%；接触误差4.667mm，低于DexPilot 6.354mm、UniDex 7.715mm。预训练GR00T N1.7为72.5%，从头训练6.2%。\n\n5）优势与局限：作者声称优势为免物体模型/仿真、支持20 DoF手、无需任务专用机器人演示且采集快。可直接核对证据限于上述四任务、单一Moz1双Wuji Hands平台及60演示设置；更广泛化、失败机制与计算资源摘录未覆盖。复现需TouchBridge-Cap（RealSense D455、腕相机、Manus手套、PaXini触觉、AprilTag）、对应机器人传感接口、GR00T N1.7及四任务数据。",
+      "technical_analysis": "1）**研究问题与任务设定**：作者针对接触丰富灵巧操作中人类演示跨具身迁移的传感与手形态差异，提出将人类演示直接转换为机器人域训练数据，用于微调预训练VLA；任务为四个真实世界接触丰富操作。作者声称无需物体网格、物体位姿估计或物理仿真即可重定向。\n\n2）**方法模块与信息流**：TouchBridge为软硬件协同框架。TouchBridge-Cap采集RGB、手部运动与指尖触觉；机器人接口对齐腕相机与指尖触觉布局。核心Tac-Retarget以触觉为条件：指尖位姿对齐、接触块对齐（响应加权接触中心及活跃taxel）、接触激活图保持手内与跨手接触空间关系；优化机器人双手基座位姿和关节，式(1)含姿态、接触、图与正则项。随后SAM 2分割人手/硬件、ProPainter修补、渲染机器人网格，并以相机锚定构造相对末端动作与绝对关节目标。\n\n3）**训练数据、监督信号与损失**：每任务采集60个人类演示和60个遥操作演示；触觉仅用于重定向，不作为策略输入。人类数据经上述管道转为机器人训练序列。重定向优化含\\(\\mathcal L_{pose}\\)、\\(\\mathcal L_{contact}\\)、\\(\\mathcal L_{graph}\\)、\\(\\mathcal L_{reg}\\)；策略训练的具体损失、超参数与算力摘录未覆盖。\n\n4）**实验与定量结果**：四任务为Flip Book、Screw Bulb、Apply Sauce、Grasp Egg Roll；平台Moz1双臂机器人+Wuji Hands，策略GR00T N1.7。指标含每任务20次真实试验成功率、20次回放成功率、采集时间及接触误差。转换数据策略平均成功率72.5%，遥操作数据77.5%；采集11.7s对81.7s，7.0×加速；回放87.5%。Tac-Retarget较DexPilot、UniDex分别高25.0、42.5个百分点；接触误差4.667mm，低于DexPilot 6.354mm、UniDex 7.715mm；消融无接触图6.659mm、无接触对齐7.071mm、仅运动学7.540mm。\n\n5）**优势、局限与复现资源**：优势为免物体模型/仿真、支持20 DoF手、采集快且性能接近遥操作；局限为仅四任务、单机器人平台，触觉未作策略输入，视觉转换依赖分割/修补与标定，接触误差仿真仅用于Grasp Egg Roll。复现需TouchBridge-Cap（D455、双侧Hikrobot、Manus手套、PaXini触觉阵列、AprilTag）、Moz1+Wuji Hands及PaXini传感器、SAM 2、ProPainter、Isaac Sim；训练细节与算力摘录未覆盖。",
       "technical_analysis_status": "ok",
       "reading_scope": "HTML full text fetched; concise model analysis stored"
     },
@@ -268,7 +268,7 @@
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.32101",
-      "technical_analysis": "1) 研究问题与任务设定：作者关注仅凭自我中心视觉演示难以恢复接触与力意图，提出结合RGB-D与触觉手套，将双臂灵巧操作技能迁移至机器人；任务为Bottle Handover与Box Rotation。  \n2) 方法模块与信息流：RGB-D/触觉输入经SAM 3、HaMeR、FoundationPose初始化手—物运动，做度量对齐；触觉读数映射至MANO表面54区域锚点，以接触、法向及持续接触项优化手姿；再以交互网格拉普拉斯坐标重定向至OmniHand 3；最后在仿真中用PPO训练残差策略，奖励含运动跟踪、区域接触状态/力/过早接触惩罚及正则。Actor不含触觉，critic含特权触觉；部署无需机器人侧触觉。  \n3) 训练数据、监督与损失：演示由Intel RealSense D435i（30 Hz）和全掌触觉手套（125 Hz）同步采集；演示规模未披露。重建损失含视觉、正则、接触、法向、持续项；RL奖励细节、权重及接触传感器配置称在补充材料，摘录未覆盖。  \n4) 实验与结果：仿真指标为物体关键点误差(mm)与成功率；基线REGRIND、SPIDER、MANIPTRANS。可核对：Ego2Real为4.73/100%与2.29/100%；REGRIND为3.98/100%与1.99/100%；SPIDER为12.93/0%与11.76/0%；MANIPTRANS为5.70/68.5%与8.04/49.6%。真实世界每任务15次：Ego2Real（触觉细化）12/15、15/15；REGRIND同参考2/15、15/15；无细化均0/15；纯裸手1/15、4/15。Score定义与成功判据摘录未覆盖。  \n5) 优势、局限与复现资源：作者声称两阶段触觉监督互补并提升真实成功率；证据支持细化参考对真实任务关键。局限包括仅两任务、真实Bottle非全成功、视觉遮挡与区域对应/力容忍仍存不确定性。复现需RGB-D相机、触觉手套（型号未披露）、RTX 4090、Tianji Marvin Pro与OmniHand 3、FoundationPose/mjlab等；代码、数据与训练规模未披露。",
+      "technical_analysis": "1）研究问题与任务设定：从第一视角RGB-D与触觉手套演示中学习双臂灵巧操作，迁移至拟人机器人手；核心问题是视觉接触模糊，如何用实测触觉提升重定向与策略学习。任务为Bottle Handover、Box Rotation。\n\n2）方法模块与信息流：RGB-D+手套→SAM 3掩码、FoundationPose物体位姿、HaMeR/MANO手初始化→度量对齐→触觉引导手-物姿态优化→保持交互几何重定向至OmniHand 3→PPO残差RL→真实闭环部署。关键机制：触觉锚点约束接触距离/法向并保持持续接触；接触奖励含区域接触状态、力相似性和过早接触惩罚；actor不含触觉，critic含特权触觉。\n\n3）训练数据、监督与损失：摘录仅说明两任务、RealSense D435i 30Hz、手套125Hz及设备；演示数量、数据规模未披露。重建损失为L_visual+L_reg+λcL_contact+λnL_normal+λpL_pres；RL奖励rt=Δt(rtr+rcon+rreg)，rcon含λC接触状态、λF力相似、λP过早接触惩罚；具体权重与补充细节摘录未覆盖。\n\n4）实验与结果：仿真指标为成功率与对象关键点误差(mm)。表1：Ego2Real两任务均100%，误差4.73/2.29；REGRIND均100%，3.98/1.99；SPIDER均0%；MANIPTRANS为68.5%/49.6%。真实表2：Ego2Real+触觉细化12/15、15/15；REGRIND+细化2/15、15/15；无细化时Ego2Real为2/15、0/15；裸手基线1/15、4/15。\n\n5）优势、局限与复现资源：作者声称两阶段触觉监督互补，表1/2及消融可核对真实任务增益；部署不需机器人侧触觉。局限：仅两任务、真实每任务15次，摘录未覆盖统计细节与补充材料；依赖对象网格、固定第一视角及FoundationPose。资源：RTX 4090、D435i、触觉手套、Tianji Marvin Pro与OmniHand 3、mjlab/MuJoCo。",
       "technical_analysis_status": "ok",
       "reading_scope": "HTML full text fetched; concise model analysis stored"
     },
@@ -330,7 +330,7 @@
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.30813",
-      "technical_analysis": "1) **问题与任务**：评估机器人操作中预训练视觉编码器的 patch 级（非池化第三人称）表示；在自我中心双臂任务上，以共享策略比较 20 个编码器/7 家族，覆盖冻结/微调、单/多任务、数据/模型/层与池化扫描。作者声称这是首个联合控制与诊断的 patch 级自我中心双臂基准。\n\n2) **方法**：共享 DiT flow-matching 动作头读取各视角全部 patch token（去 class/register），输出 16 步动作块；多任务追加冻结 CLIP 文本特征。诊断含 token 统计、状态/物体读出、已发表视觉分数、IDM（16 步间隔预测标准化命令位移）。信息流：头/腕图像→编码器 patch→交叉注意力→动作块。\n\n3) **数据/监督/损失**：RoboCasa-GR1 12 任务、1000 演示/任务、头视角、29 维动作、执行 12/16；RoboTwin 2.0 12 任务、500 演示/任务、头+双腕、14 维关节、执行 16/16。监督为归一化 16 步动作块的 flow-matching 速度；MT 用语言条件。训练 100k AdamW 步、batch 128、4 GPU；动作头 138.669–156.478M；头 lr 1e-4、编码器微调 1e-5；flow time Beta(1.5,1)、8 噪声、推理 Euler 15/10。完整损失公式与附录实现摘录未覆盖。\n\n4) **实验**：指标为闭环成功率（3 评估种子×50 rollout/任务，12 任务均值）及 Spearman ρ 等；基线含均值池化、冻结/微调、ST/MT 及预测 mean baseline。可核对：池化使 DINOv2 32.28→9.94、DINOv3 31.22→6.44（Casa MT）；微调 10 对均升（Casa ST +1.11–9.44，Twin MT +2.22–26.06）；VGGT-Ω Twin 50.00→76.06；MT 保留 87.7% ST（26.94→23.62）；IDM 与 Twin MT 成功 ρ=-0.75（q=0.020）；ImageNet 探针 ρ=0.07/0.38；跨基准排名 ρ=0.43。\n\n5) **优势/局限/复现**：优势是共享策略与预算下多角度比较，量化 patch 保留和适配收益；作者明确称 IDM 较强但无统计量可替代 rollout，且不识别最佳编码器/不预测适配增益。局限：两套件机器人/视角/动作同时变化，差异为观察性；主比较单种子，成本高（49.7–195.3 TFLOPs/步）。复现需代码库/Benchmark Zoo、20 编码器检查点、两仿真套件、4 GPU 及附录 A 配方；完整资源清单摘录未覆盖。",
+      "technical_analysis": "以下除“作者声称”外均为摘录可核对内容；未给出处标“未覆盖”。\n\n1) 问题/任务：作者称现有比较多用第三人称池化向量，而双臂策略读机载相机密集patch；HIVE-Bench在24个第一人称双臂任务上以共享策略比较20个编码器/7族，并研究token测量与闭环成功的关系（§1、§3.1）。\n\n2) 方法：各视角全部patch经交叉注意力入DiT flow-matching动作专家；32个learned queries+16个noisy action tokens，输出16步动作块；MT加冻结CLIP文本条件；做冻结/微调、ST/MT及数据/模型/层扫描；诊断含token统计、状态/物体探针、公开视觉分数、IDM（§3.2–3.4）。\n\n3) 数据/监督：RoboCasa-GR1 12任务、每任务1000 demos、头相机、29-D动作；RoboTwin 2.0 12任务、500 demos、头+双腕、14-D关节、16步chunk。监督为示范动作块，flow-matching速度回归，flow time Beta(1.5,1)、每样本8噪声；完整损失式与数据划分摘录未覆盖。训练100k AdamW步、batch128、4 GPU BF16（§3.3）。\n\n4) 实验：主指标闭环成功率；每任务3个评测seed×50 rollouts，主比较单训练seed。RoboCasa MT：VGGT-Ω 35.39%、C-RADIOv4 34.78%、DINOv2 32.28%；RoboTwin MT：VLM 51.44–53.67%。均值池化使DINOv2 32.28→9.94、DINOv3 31.22→6.44；微调10对全升（Casa ST +1.11–9.44，Twin MT +2.22–26.06）；MT均值26.94→23.62，保留87.7%。Twin MT两帧IDM与成功ρ=-0.75(q=.020)，但无统计量可替代rollout。\n\n5) 优势/局限/复现：优势为共享策略与优化器控制变量、patch级机载双臂覆盖、多诊断；局限为两套环境机器人/相机/数据同时不同，差异属观察性，主比较单种子，关联非因果，IDM亦漏最佳编码器（作者承认）。复现需4 GPU、BF16、每策略100k步、batch128；动作头约138.7–156.5M参数，完整配方在附录，摘录未覆盖。",
       "technical_analysis_status": "ok",
       "reading_scope": "HTML full text fetched; concise model analysis stored"
     },
@@ -538,8 +538,8 @@
           "name": "TingtingLiao/SimPWM",
           "url": "https://github.com/TingtingLiao/SimPWM",
           "description": null,
-          "stars": 6,
-          "updated_at": "2026-11-27T06:10:24Z"
+          "stars": 7,
+          "updated_at": "2026-11-27T13:31:42Z"
         }
       ],
       "full_text_source_url": "https://arxiv.org/html/2611.32786",
@@ -632,8 +632,8 @@
           "name": "MAGICLAB-NUS/Force2Act",
           "url": "https://github.com/MAGICLAB-NUS/Force2Act",
           "description": "Force2Act: A Force-Aware Visuomotor Policy for Generalizable Compliant Robot Manipulation",
-          "stars": 12,
-          "updated_at": "2026-11-27T04:31:04Z"
+          "stars": 13,
+          "updated_at": "2026-11-27T21:01:00Z"
         }
       ]
     },
